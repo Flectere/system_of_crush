@@ -6,6 +6,6 @@ type User struct {
 	Password   string `json:"password"`
 	LastName   string `json:"last_name"`
 	FirstName  string `json:"first_name"`
-	Patromonyc string `json:"patronymic"`
+	Patronymic string `json:"patronymic"`
 	RoleID     int    `json:"id_role"`
 }

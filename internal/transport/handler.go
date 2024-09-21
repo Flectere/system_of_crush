@@ -5,6 +5,7 @@ import (
 
 	"github.com/Flectere/system_of_crush/internal/models"
 	"github.com/Flectere/system_of_crush/internal/service"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -38,6 +39,29 @@ func (h *Userhandler) RegistrationHandler(c *gin.Context) {
 }
 
 func (h *Userhandler) LoginHandler(c *gin.Context) {
-	// Получение данных о пользователе из запроса
+	var loginData struct {
+		Login    string `json:"login"`
+		Password string `json:"password"`
+	}
+	fmt.Println(c.Request.URL)
+	if err := c.BindJSON(&loginData); err != nil {
+		c.JSON(400, gin.H{"error": "Некорректные данные для входа"})
+		return
+	}
 
+	token, err := h.userService.Login(loginData.Login, loginData.Password)
+	if err != nil {
+		switch err.Error() {
+		case "пользователь не найден":
+			c.JSON(404, gin.H{"error": "Пользователь не найден."})
+		case "пароль неверный":
+			c.JSON(401, gin.H{"error": "Пароль неверный."})
+		default:
+			c.JSON(500, gin.H{"error": "Ошибка сервера."})
+		}
+		return
+	}
+
+	c.Header("Authorization", "Bearer "+token)
+	c.JSON(200, gin.H{"message": "Пользователь успешно авторизован"})
 }
