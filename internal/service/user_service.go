@@ -3,45 +3,28 @@ package service
 import (
 	"context"
 	"errors"
-	"time"
 
 	"github.com/Flectere/system_of_crush/internal/database"
 	"github.com/Flectere/system_of_crush/internal/models"
-	"github.com/golang-jwt/jwt/v5"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
-const salt = "z9pcWW2o19sTcBw7V075"
+const (
+	salt = "z9pcWW2o19sTcBw7V075"
+)
 
 type UserService struct {
 	db *database.Database
 }
 
-func generateJWT(user models.User) (string, error) {
-	secretKey := []byte("emagertlESPi")
-
-	claims := jwt.MapClaims{
-		"ID":         user.ID,
-		"first_name": user.FirstName,
-		"last_name":  user.LastName,
-		"patronymic": user.Patronymic,
-		"role_id":    user.RoleID,
-		"exp":        time.Now().Add(time.Hour * 12).Unix(),
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString(secretKey)
-	if err != nil {
-		return "", errors.New("ошибка создания токена")
-	}
-
-	return tokenString, nil
-}
-
+// Хэширование пароля
 func hashPassword(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password+salt), 12)
 	return string(hashedPassword), err
 }
 
+// Проверка соответсвия пароля и хэшированного пароля из базы
 func checkPassword(password, hashedPassword string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password+salt))
 }
@@ -50,9 +33,9 @@ func NewUserService(db *database.Database) *UserService {
 }
 
 // Аутентификация пользователя по логину и паролю
-func (s *UserService) Login(username, password string) (string, error) {
-	var user models.User
-	err := s.db.Pool.QueryRow(context.Background(), `select * from "user" where login = $1`, username).Scan(&user.ID, &user.Login, &user.Password, &user.LastName, &user.FirstName, &user.Patronymic, &user.RoleID)
+func (s *UserService) Login(login, password string) (string, error) {
+
+	user, err := s.getUser(login)
 	if err != nil {
 		return "", errors.New("пользователь не найден")
 	}
@@ -70,8 +53,15 @@ func (s *UserService) Login(username, password string) (string, error) {
 	return token, nil
 }
 
-// Создание нового пользователя в базе данных
-func (s *UserService) CreateUser(user models.User) (int, error) {
+// Получение пользователя из базы по логину
+func (s *UserService) getUser(login string) (models.User, error) {
+	var user models.User
+	err := s.db.Pool.QueryRow(context.Background(), `select * from "user" where login = $1`, login).Scan(&user.ID, &user.Login, &user.Password, &user.LastName, &user.FirstName, &user.Patronymic, &user.RoleID)
+	return user, err
+}
+
+// Регистрация пользователя
+func (s *UserService) Registration(user models.User) (int, error) {
 	var id int
 
 	hashedPassword, err := hashPassword(user.Password)

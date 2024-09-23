@@ -20,13 +20,15 @@ func NewRouter(userService *service.UserService) *gin.Engine {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	userhandler := NewUserHandler(userService)
+	userHandler := NewUserHandler(userService)
 
+	// "Эндопоинты для регистрации и авторизации"
 	auth := router.Group("/auth")
 	{
-		auth.POST("/login", userhandler.LoginHandler)
-		auth.POST("/register", userhandler.RegistrationHandler)
+		auth.POST("/login", userHandler.LoginHandler)
+		auth.POST("/register", userHandler.RegistrationHandler)
 	}
+
 	router.OPTIONS("/*any", func(c *gin.Context) {
 		c.JSON(200, nil)
 	})
