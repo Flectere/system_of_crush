@@ -31,10 +31,20 @@ func Run(configPath string) {
 	if err != nil {
 		log.Fatal("Не удалось десериализовать конфиг", err)
 	}
-
+	// Инициализация базы данных
 	db := database.InitDB(databaseConfig)
+	defer database.CloseDB()
+
+	// Инициализация сервисов
 	userService := service.NewUserService(db)
-	router := transport.NewRouter(userService)
+	appealService := service.NewAppealService(db)
+
+	service := service.Service{
+		UserService:   userService,
+		AppealService: appealService,
+	}
+
+	router := transport.NewRouter(&service)
 
 	err = router.Run("25.19.79.114:8080")
 	if err != nil {

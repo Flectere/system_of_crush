@@ -18,6 +18,10 @@ type UserService struct {
 	db *database.Database
 }
 
+func NewUserService(db *database.Database) *UserService {
+	return &UserService{db: db}
+}
+
 // Хэширование пароля
 func hashPassword(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password+salt), 12)
@@ -27,9 +31,6 @@ func hashPassword(password string) (string, error) {
 // Проверка соответсвия пароля и хэшированного пароля из базы
 func checkPassword(password, hashedPassword string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password+salt))
-}
-func NewUserService(db *database.Database) *UserService {
-	return &UserService{db: db}
 }
 
 // Аутентификация пользователя по логину и паролю
@@ -56,7 +57,7 @@ func (s *UserService) Login(login, password string) (string, error) {
 // Получение пользователя из базы по логину
 func (s *UserService) getUser(login string) (models.User, error) {
 	var user models.User
-	err := s.db.Pool.QueryRow(context.Background(), `select * from "user" where login = $1`, login).Scan(&user.ID, &user.Login, &user.Password, &user.LastName, &user.FirstName, &user.Patronymic, &user.RoleID)
+	err := s.db.Pool.QueryRow(context.Background(), `select * from "user" where login = $1`, login).Scan(&user.ID, &user.Login, &user.Password, &user.LastName, &user.FirstName, &user.Patronymic, &user.Role.ID)
 	return user, err
 }
 
@@ -70,7 +71,7 @@ func (s *UserService) Registration(user models.User) (int, error) {
 	}
 	user.Password = hashedPassword
 
-	row := s.db.Pool.QueryRow(context.Background(), `INSERT INTO "user" (login, password, last_name, first_name, patronymic, id_role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING ID`, user.Login, user.Password, user.LastName, user.FirstName, user.Patronymic, user.RoleID)
+	row := s.db.Pool.QueryRow(context.Background(), `INSERT INTO "user" (login, password, last_name, first_name, patronymic, id_role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING ID`, user.Login, user.Password, user.LastName, user.FirstName, user.Patronymic, user.Role.ID)
 	if err := row.Scan(&id); err != nil {
 		return 0, err
 	}

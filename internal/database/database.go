@@ -24,16 +24,6 @@ type Database struct {
 
 // Инициализация базы данных
 func InitDB(config DataBaseConfig) *Database {
-	//Создание конфига подключения к базе данных
-	// cfg := DataBaseConfig{
-	// 	Host:     config.Host,
-	// 	Port:     config.Port,
-	// 	Username: config.Username,
-	// 	Password: config.Password,
-	// 	Database: config.Database,
-	// 	SSLMode:  config.SSLMode,
-	// }
-
 	connString := "user=postgres dbname=system_of_crush password= host=localhost port=5432 sslmode=disable"
 
 	//Создание соедения с базой данных
@@ -44,10 +34,9 @@ func InitDB(config DataBaseConfig) *Database {
 	}
 
 	return &Database{Pool: db}
-
 }
 
 // Закрыть соединение с базой данных
-func CloseDb() {
+func CloseDB() {
 	db.Close()
 }

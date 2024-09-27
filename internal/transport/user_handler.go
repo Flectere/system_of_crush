@@ -9,22 +9,23 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type UserHandler struct {
+type userHandler struct {
 	userService *service.UserService
 }
 
-func NewUserHandler(userService *service.UserService) *UserHandler {
-	return &UserHandler{userService: userService}
+func NewUserHandler(userService *service.UserService) *userHandler {
+	return &userHandler{userService: userService}
 }
 
 // Обработчик запроса на регистрацию
-func (h *UserHandler) RegistrationHandler(c *gin.Context) {
+func (h *userHandler) RegistrationHandler(c *gin.Context) {
 	// Получение данных о пользователе из запроса
 	var user models.User
 	if err := c.BindJSON(&user); err != nil {
 		return
 	}
 
+	// Добавление пользователя
 	id, err := h.userService.Registration(user)
 	if err != nil {
 		c.JSON(500, gin.H{"error": fmt.Sprintf("Ошибка при создании пользователя %s", err.Error())})
@@ -39,7 +40,7 @@ func (h *UserHandler) RegistrationHandler(c *gin.Context) {
 }
 
 // Обработчик запроса на авторизацию
-func (h *UserHandler) LoginHandler(c *gin.Context) {
+func (h *userHandler) LoginHandler(c *gin.Context) {
 	var loginData struct {
 		Login    string `json:"login"`
 		Password string `json:"password"`

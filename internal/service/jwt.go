@@ -19,7 +19,7 @@ func generateJWT(user models.User) (string, error) {
 		"first_name": user.FirstName,
 		"last_name":  user.LastName,
 		"patronymic": user.Patronymic,
-		"role_id":    user.RoleID,
+		"role_id":    user.Role.ID,
 		"exp":        time.Now().Add(time.Hour * 12).Unix(),
 	}
 
