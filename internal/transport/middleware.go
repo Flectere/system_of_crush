@@ -10,7 +10,6 @@ import (
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Извлекаем заголовок Authorization
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Authorization header is missing"})
@@ -18,7 +17,6 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Проверка что заголовок в заголовке лежит токен
 		tokenString := strings.Split(authHeader, "Bearer ")
 		if len(tokenString) != 2 {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token format"})
@@ -33,7 +31,6 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Если всё корректно, продолжаем выполнение запроса
 		c.Set("user_id", user_id)
 		c.Next()
 	}

@@ -71,7 +71,7 @@ func (s *UserService) Registration(user models.User) (int, error) {
 	}
 	user.Password = hashedPassword
 
-	row := s.db.Pool.QueryRow(context.Background(), `INSERT INTO "user" (login, password, last_name, first_name, patronymic, id_role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING ID`, user.Login, user.Password, user.LastName, user.FirstName, user.Patronymic, user.Role.ID)
+	row := s.db.Pool.QueryRow(context.Background(), `INSERT INTO "user" (login, password, last_name, first_name, patronymic, id_role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`, user.Login, user.Password, user.LastName, user.FirstName, user.Patronymic, user.Role.ID)
 	if err := row.Scan(&id); err != nil {
 		return 0, err
 	}

@@ -19,19 +19,20 @@ func NewAppealService(db *database.Database) *AppealService {
 func (s *AppealService) CreateAppeal(appeal models.Appeal) (int, error) {
 	var newAppealID int
 
-	// SQL-запрос для вставки нового обращения
 	query := `
-		INSERT INTO appeal (title, description, create_date, id_specialization, id_importance) 
-		VALUES ($1, $2, NOW(), $3, $4)
-		RETURNING id
+		INSERT INTO appeal
+		(description, create_date, id_accident, id_importance, id_status, applicant_name, applicant_number)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id
 	`
 
-	// Выполнение запроса и получение ID нового обращения
 	err := s.db.Pool.QueryRow(context.Background(), query,
-		appeal.Title,
 		appeal.Description,
-		appeal.Specialization.ID,
+		appeal.CreateDate,
+		appeal.Accident.ID,
 		appeal.Importance.ID,
+		appeal.Status.ID,
+		appeal.ApplicantName,
+		appeal.ApplicantNumber,
 	).Scan(&newAppealID)
 
 	if err != nil {
@@ -44,31 +45,31 @@ func (s *AppealService) CreateAppeal(appeal models.Appeal) (int, error) {
 // Получение всех обращений
 func (s *AppealService) GetAllAppeals() ([]models.Appeal, error) {
 	var allModels []models.Appeal
-
-	// SQL запрос для получения данных о всех обращениях
-	query := `SELECT a.id, a.title, s.id, s.name, i.id, i.name 
-	FROM "appeal" a
-	JOIN specialization s ON a.id_specialization = s.id
-	JOIN importance i ON a.id_importance = i.id
+	query := `SELECT ap.id, ap.create_date, spec."name", con."name", im."name",st."name"
+				FROM appeal ap
+				JOIN status st ON ap.id_status = st.id
+				JOIN importance im ON ap.id_importance = im.id
+				JOIN accident_content con ON ap.id_accident = con.id
+				JOIN accident_character char ON con.id_character = char.id
+				JOIN specialization spec ON char.id_specialization = spec.id
+				ORDER BY ap.id
 	`
-	// Выполнение запроса
 	rows, err := s.db.Pool.Query(context.Background(), query)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	// Заполнение списка обращениями
 	for rows.Next() {
 		var appeal models.Appeal
 
 		err := rows.Scan(
 			&appeal.ID,
-			&appeal.Title,
-			&appeal.Specialization.ID,
-			&appeal.Specialization.Name,
-			&appeal.Importance.ID,
+			&appeal.CreateDate,
+			&appeal.Accident.Character.Specialization.Name,
+			&appeal.Accident.Name,
 			&appeal.Importance.Name,
+			&appeal.Status.Name,
 		)
 		if err != nil {
 			return nil, err
@@ -84,31 +85,59 @@ func (s *AppealService) GetAllAppeals() ([]models.Appeal, error) {
 func (s *AppealService) GetAppealById(id string) (models.Appeal, error) {
 	var appeal models.Appeal
 
-	// SQL-запрос для получения данных об обращении
 	query := `
-		SELECT a.id, a.title, a.description, a.create_date, s.id, s.name, i.id, i.name 
-		FROM "appeal" a
-		JOIN specialization s ON a.id_specialization = s.id
-		JOIN importance i ON a.id_importance = i.id
-		WHERE a.id = $1
+		SELECT ap.id, ap.create_date, ap.description, st."name", im."name", con."name", char."name", spec."name", ap.applicant_name, ap.applicant_number 
+		FROM appeal ap
+		JOIN status st ON ap.id_status = st.id
+		JOIN importance im ON ap.id_importance = im.id
+		JOIN accident_content con ON ap.id_accident = con.id
+		JOIN accident_character char ON con.id_character = char.id
+		JOIN specialization spec ON char.id_specialization = spec.id
+		WHERE ap.id = $1
 	`
-	// Выполняем запрос
 	row := s.db.Pool.QueryRow(context.Background(), query, id)
 
-	// Сканируем данные в структуру Appeal, включая вложенные структуры
 	err := row.Scan(
 		&appeal.ID,
-		&appeal.Title,
-		&appeal.Description,
 		&appeal.CreateDate,
-		&appeal.Specialization.ID,
-		&appeal.Specialization.Name,
-		&appeal.Importance.ID,
+		&appeal.Description,
+		&appeal.Status.Name,
 		&appeal.Importance.Name,
+		&appeal.Accident.Name,
+		&appeal.Accident.Character.Name,
+		&appeal.Accident.Character.Specialization.Name,
+		&appeal.ApplicantName,
+		&appeal.ApplicantNumber,
 	)
 	if err != nil {
 		return appeal, err
 	}
 
 	return appeal, nil
+}
+
+func (s *AppealService) UpdateAppeal(appeal models.Appeal) error {
+	query := `UPDATE appeal
+	SET id=$1, description=$2, create_date=$3, id_accident=$4, id_importance=$5, id_status=$6, applicant_name=$7, applicant_number=$8
+	WHERE id=$1;`
+
+	_, err := s.db.Pool.Exec(context.Background(), query, appeal.ID, appeal.Description, appeal.CreateDate, appeal.Accident.ID, appeal.Importance.ID, appeal.Status.ID, appeal.ApplicantName, appeal.ApplicantNumber)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *AppealService) DeleteAppeal(id string) error {
+	query := `DELETE FROM appeal WHERE id=$1;`
+
+	_, err := s.db.Pool.Exec(context.Background(), query, id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -19,20 +19,18 @@ func NewUserHandler(userService *service.UserService) *userHandler {
 
 // Обработчик запроса на регистрацию
 func (h *userHandler) RegistrationHandler(c *gin.Context) {
-	// Получение данных о пользователе из запроса
 	var user models.User
+
 	if err := c.BindJSON(&user); err != nil {
 		return
 	}
 
-	// Добавление пользователя
 	id, err := h.userService.Registration(user)
 	if err != nil {
 		c.JSON(500, gin.H{"error": fmt.Sprintf("Ошибка при создании пользователя %s", err.Error())})
 		return
 	}
 
-	// Возвращение созданного пользователя в ответе
 	c.JSON(201, gin.H{
 		"message": "Пользователь успешно создан",
 		"user_id": id,
@@ -41,11 +39,12 @@ func (h *userHandler) RegistrationHandler(c *gin.Context) {
 
 // Обработчик запроса на авторизацию
 func (h *userHandler) LoginHandler(c *gin.Context) {
+
 	var loginData struct {
 		Login    string `json:"login"`
 		Password string `json:"password"`
 	}
-	fmt.Println(c.Request.URL)
+
 	if err := c.BindJSON(&loginData); err != nil {
 		c.JSON(400, gin.H{"error": "Некорректные данные для входа"})
 		return

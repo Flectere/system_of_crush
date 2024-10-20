@@ -16,23 +16,16 @@ func NewAppealHandler(appealService *service.AppealService) *appealHandler {
 
 // Обработчик для обработки запросов на создание нового обращения
 func (h *appealHandler) CreateAppealHandler(c *gin.Context) {
-	// Получение данных обращения из запроса
 	var appeal models.Appeal
+
 	if err := c.ShouldBindJSON(&appeal); err != nil {
 		c.JSON(400, gin.H{"error": "Неверные данные"})
 		return
 	}
 
-	// Проверяем, что ID специализации и важности присутствуют
-	if appeal.Specialization.ID == 0 || appeal.Importance.ID == 0 {
-		c.JSON(400, gin.H{"error": "Необходимо указать специализацию и важность"})
-		return
-	}
-
-	// Создание нового обращения
 	appealID, err := h.appealService.CreateAppeal(appeal)
 	if err != nil {
-		c.JSON(500, gin.H{"error": "Ошибка при создании обращения"})
+		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -41,11 +34,13 @@ func (h *appealHandler) CreateAppealHandler(c *gin.Context) {
 
 // Обработчик для обработки запросов на получение всех обращений
 func (h *appealHandler) GetAllAppealsHandler(c *gin.Context) {
+
 	appeals, err := h.appealService.GetAllAppeals()
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
 	c.JSON(200, appeals)
 }
 
@@ -57,18 +52,38 @@ func (h *appealHandler) GetAppealHandler(c *gin.Context) {
 	appeal, err := h.appealService.GetAppealById(id)
 
 	if err != nil {
-		c.JSON(404, gin.H{"error": "Обращение не найдено"})
+		c.JSON(404, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(200, appeal)
-
 }
 
 func (h *appealHandler) UpdateAppealHandler(c *gin.Context) {
+	var appeal models.Appeal
 
+	if err := c.ShouldBindJSON(&appeal); err != nil {
+		c.JSON(400, gin.H{"error": "Неверные данные"})
+		return
+	}
+
+	err := h.appealService.UpdateAppeal(appeal)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(200, appeal)
 }
 
 func (h *appealHandler) DeleteAppealHandler(c *gin.Context) {
+	id := c.Param("id")
 
+	err := h.appealService.DeleteAppeal(id)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.Status(204)
 }

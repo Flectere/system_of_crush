@@ -23,25 +23,32 @@ func NewRouter(service *service.Service) *gin.Engine {
 
 	userHandler := NewUserHandler(service.UserService)
 	appealsHandler := NewAppealHandler(service.AppealService)
+	applicationsHandler := NewApplicationHandler(service.ApplicationService)
 
-	// Эндопоинты для регистрации и авторизации
 	auth := router.Group("/auth")
 	{
 		auth.POST("/login", userHandler.LoginHandler)
 		auth.POST("/register", userHandler.RegistrationHandler)
 	}
 
-	// Эндпоинты для запросов требующих JWT авторизацию
 	api := router.Group("/api", AuthMiddleware())
 	{
-		// Эндпоинты для работы с заявками
 		appeals := api.Group("/appeals")
 		{
 			appeals.POST("", appealsHandler.CreateAppealHandler)
 			appeals.GET("", appealsHandler.GetAllAppealsHandler)
 			appeals.GET("/:id", appealsHandler.GetAppealHandler)
-			appeals.PUT("/:id", appealsHandler.UpdateAppealHandler)
+			appeals.PUT("", appealsHandler.UpdateAppealHandler)
 			appeals.DELETE("/:id", appealsHandler.DeleteAppealHandler)
+		}
+
+		applications := api.Group("/applications")
+		{
+			applications.POST("", applicationsHandler.CreateApplicationHandler)
+			applications.GET("", applicationsHandler.GetAllApplicationsHandler)
+			applications.GET("/:id", applicationsHandler.GetApplicationHandler)
+			applications.PUT("", applicationsHandler.UpdateApplicationHandler)
+			applications.DELETE("/:id", applicationsHandler.DeleteApplicationHandler)
 		}
 	}
 

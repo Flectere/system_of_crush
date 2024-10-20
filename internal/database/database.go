@@ -2,35 +2,28 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"log"
 
+	"github.com/Flectere/system_of_crush/configs"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 var db *pgxpool.Pool
-
-type DataBaseConfig struct {
-	Host     string `json:"host"`
-	Port     int    `json:"port"`
-	Username string `json:"username"`
-	Password string `json:"password"`
-	Database string `json:"database"`
-	SSLMode  string `json:"sslMode"`
-}
 
 type Database struct {
 	Pool *pgxpool.Pool
 }
 
 // Инициализация базы данных
-func InitDB(config DataBaseConfig) *Database {
-	connString := "user=postgres dbname=system_of_crush password= host=localhost port=5432 sslmode=disable"
+func InitDB(config configs.DataBaseConfig) *Database {
+	connString := fmt.Sprintf("user=%s dbname=%s host=%s port=%d sslmode=%s password=%s", config.Username, config.Database, config.Host, config.Port, config.SSLMode, config.Password)
 
-	//Создание соедения с базой данных
-	db, err := pgxpool.New(context.Background(), connString)
+	db, _ := pgxpool.New(context.Background(), connString)
 
+	err := db.Ping(context.Background())
 	if err != nil {
-		log.Fatal("Не удалось подключиться к базе данных: ", err)
+		log.Fatal("Ошибка при подключении к базе данных: ", err)
 	}
 
 	return &Database{Pool: db}

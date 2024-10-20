@@ -1,6 +1,7 @@
 package service
 
 type Service struct {
-	UserService   *UserService
-	AppealService *AppealService
+	UserService        *UserService
+	AppealService      *AppealService
+	ApplicationService *ApplicationService
 }
