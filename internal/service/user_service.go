@@ -57,7 +57,8 @@ func (s *UserService) Login(login, password string) (string, error) {
 // Получение пользователя из базы по логину
 func (s *UserService) getUser(login string) (models.User, error) {
 	var user models.User
-	err := s.db.Pool.QueryRow(context.Background(), `select * from "user" where login = $1`, login).Scan(&user.ID, &user.Login, &user.Password, &user.LastName, &user.FirstName, &user.Patronymic, &user.Role.ID)
+
+	err := s.db.Pool.QueryRow(context.Background(), `select u.id, u.login, u.password, u.last_name, u.first_name, u.patronymic, r.id, r.name from "user" u JOIN role r ON u.id_role = r.id where u.login = $1;`, login).Scan(&user.ID, &user.Login, &user.Password, &user.LastName, &user.FirstName, &user.Patronymic, &user.Role.ID, &user.Role.Name)
 	return user, err
 }
 

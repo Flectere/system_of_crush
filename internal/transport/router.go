@@ -9,7 +9,6 @@ import (
 )
 
 func NewRouter(service *service.Service) *gin.Engine {
-
 	router := gin.Default()
 
 	router.Use(cors.New(cors.Config{
@@ -21,9 +20,19 @@ func NewRouter(service *service.Service) *gin.Engine {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	userHandler := NewUserHandler(service.UserService)
-	appealsHandler := NewAppealHandler(service.AppealService)
-	applicationsHandler := NewApplicationHandler(service.ApplicationService)
+	userHandler := newUserHandler(service.UserService)
+	appealHandler := newAppealHandler(service.AppealService)
+	applicationHandler := newApplicationHandler(service.ApplicationService)
+	shutdownHandler := newShutdownHandler(service.ShutdownService)
+	accidentHandler := newAccidentHandler(service.AccidentService)
+	characterHandler := newCharacterHandler(service.CharacterService)
+	specializationHandler := newSpecializationHandler(service.SpecializationService)
+	importanceHandler := newImportanceHandler(service.ImportanceService)
+	statusHandler := newStatusHandler(service.StatusService)
+	damageHandler := newDamageHandler(service.DamageService)
+	materialHandler := newMaterialHandler(service.MaterialService)
+	statisticHandler := newStatisticHandler(service.StatisticService)
+	historyHandler := newHistoryHandler(service.HistoryService)
 
 	auth := router.Group("/auth")
 	{
@@ -35,20 +44,76 @@ func NewRouter(service *service.Service) *gin.Engine {
 	{
 		appeals := api.Group("/appeals")
 		{
-			appeals.POST("", appealsHandler.CreateAppealHandler)
-			appeals.GET("", appealsHandler.GetAllAppealsHandler)
-			appeals.GET("/:id", appealsHandler.GetAppealHandler)
-			appeals.PUT("", appealsHandler.UpdateAppealHandler)
-			appeals.DELETE("/:id", appealsHandler.DeleteAppealHandler)
+			appeals.POST("", appealHandler.CreateAppealHandler)
+			appeals.GET("", appealHandler.GetAllAppealsHandler)
+			appeals.GET("/:id", appealHandler.GetAppealHandler)
+			appeals.PUT("", appealHandler.UpdateAppealHandler)
+			appeals.DELETE("/:id", appealHandler.DeleteAppealHandler)
 		}
 
 		applications := api.Group("/applications")
 		{
-			applications.POST("", applicationsHandler.CreateApplicationHandler)
-			applications.GET("", applicationsHandler.GetAllApplicationsHandler)
-			applications.GET("/:id", applicationsHandler.GetApplicationHandler)
-			applications.PUT("", applicationsHandler.UpdateApplicationHandler)
-			applications.DELETE("/:id", applicationsHandler.DeleteApplicationHandler)
+			applications.POST("", applicationHandler.CreateApplicationHandler)
+			applications.GET("", applicationHandler.GetAllApplicationsHandler)
+			applications.GET("/:id", applicationHandler.GetApplicationHandler)
+			applications.PUT("", applicationHandler.UpdateApplicationHandler)
+			applications.DELETE("/:id", applicationHandler.DeleteApplicationHandler)
+		}
+
+		shutdowns := api.Group("/shutdowns")
+		{
+			shutdowns.POST("", shutdownHandler.CreateShutdownHandler)
+			shutdowns.GET("", shutdownHandler.GetAllShutdownsHandler)
+			shutdowns.GET("/:id", shutdownHandler.GetShutdownHandler)
+			shutdowns.PUT("", shutdownHandler.UpdateShutdownHandler)
+			shutdowns.DELETE("/:id", shutdownHandler.DeleteShutdownHandler)
+		}
+
+		accidents := api.Group("/accidents")
+		{
+			accidents.GET("", accidentHandler.GetAllAccidentsHandler)
+			accidents.GET("/:id", accidentHandler.GetAccidentHandler)
+		}
+
+		characters := api.Group("/characters")
+		{
+			characters.GET("", characterHandler.GetAllCharactersHandler)
+			characters.GET("/:id", characterHandler.GetCharacterHandler)
+		}
+
+		specializations := api.Group("/specializations")
+		{
+			specializations.GET("", specializationHandler.GetAllSpecializationsHandler)
+		}
+
+		importances := api.Group("/importances")
+		{
+			importances.GET("", importanceHandler.GetAllImportancesHandler)
+		}
+
+		statuses := api.Group("/statuses")
+		{
+			statuses.GET("", statusHandler.GetAllStatusHandler)
+		}
+
+		damages := api.Group("/damages")
+		{
+			damages.GET("", damageHandler.GetAllDamagesHandler)
+		}
+
+		materials := api.Group("/materials")
+		{
+			materials.GET("", materialHandler.GetAllMaterialsHandler)
+		}
+
+		statistics := api.Group("/statistics")
+		{
+			statistics.GET("", statisticHandler.GetStatisticHandler)
+		}
+
+		history := api.Group("/history")
+		{
+			history.GET("/appeals", historyHandler.GetAppeals)
 		}
 	}
 

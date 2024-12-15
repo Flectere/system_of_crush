@@ -11,7 +11,7 @@ type applicationHandler struct {
 	applicationService *service.ApplicationService
 }
 
-func NewApplicationHandler(applicationService *service.ApplicationService) *applicationHandler {
+func newApplicationHandler(applicationService *service.ApplicationService) *applicationHandler {
 	return &applicationHandler{applicationService: applicationService}
 }
 

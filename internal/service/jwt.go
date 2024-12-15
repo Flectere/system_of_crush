@@ -20,6 +20,7 @@ func generateJWT(user models.User) (string, error) {
 		"last_name":  user.LastName,
 		"patronymic": user.Patronymic,
 		"role_id":    user.Role.ID,
+		"role_name":  user.Role.Name,
 		"exp":        time.Now().Add(time.Hour * 12).Unix(),
 	}
 
@@ -36,7 +37,7 @@ func generateJWT(user models.User) (string, error) {
 // Валидация JWT токена
 func ValidateJWT(tokenString string) (int, error) {
 	claims := jwt.MapClaims{}
-	// Проверка того ,что токен был создан нашим алгоритмом с использованием нашего ключа
+
 	token, err := jwt.ParseWithClaims(tokenString, &claims, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
@@ -52,7 +53,6 @@ func ValidateJWT(tokenString string) (int, error) {
 		return 0, fmt.Errorf("invalid token")
 	}
 
-	// Извлечение ID из claims токена
 	id, ok := claims["ID"].(float64)
 	if !ok {
 		return 0, fmt.Errorf("invalid ID in claims")

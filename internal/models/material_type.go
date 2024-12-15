@@ -1,6 +1,6 @@
 package models
 
-type Role struct {
+type Material struct {
 	ID   *int    `json:"id"`
 	Name *string `json:"name,omitempty"`
 }

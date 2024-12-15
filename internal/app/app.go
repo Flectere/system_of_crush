@@ -21,15 +21,37 @@ func Run(configPath string) {
 
 	userService := service.NewUserService(db)
 	appealService := service.NewAppealService(db)
+	applicationService := service.NewApplicationService(db)
+	shutdownService := service.NewShutdownService(db)
+	accidentService := service.NewAccidentService(db)
+	characterService := service.NewCharacterService(db)
+	specializationService := service.NewSpecializationService(db)
+	importanceService := service.NewImportanceService(db)
+	statusService := service.NewStatusService(db)
+	materialService := service.NewMaterialService(db)
+	damageService := service.NewDamageService(db)
+	statisticService := service.NewStatisticService(db)
+	historyService := service.NewHistoryService(db)
 
 	service := service.Service{
-		UserService:   userService,
-		AppealService: appealService,
+		UserService:           userService,
+		AppealService:         appealService,
+		ApplicationService:    applicationService,
+		ShutdownService:       shutdownService,
+		AccidentService:       accidentService,
+		CharacterService:      characterService,
+		SpecializationService: specializationService,
+		ImportanceService:     importanceService,
+		StatusService:         statusService,
+		MaterialService:       materialService,
+		DamageService:         damageService,
+		StatisticService:      statisticService,
+		HistoryService:        historyService,
 	}
 
 	router := transport.NewRouter(&service)
 
-	err = router.Run("25.19.79.114:8080")
+	err = router.Run("192.168.1.204:8080")
 	if err != nil {
 		log.Fatal("Ошибка при запуске сервера ", err)
 	}

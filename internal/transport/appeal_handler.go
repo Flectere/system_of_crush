@@ -10,7 +10,7 @@ type appealHandler struct {
 	appealService *service.AppealService
 }
 
-func NewAppealHandler(appealService *service.AppealService) *appealHandler {
+func newAppealHandler(appealService *service.AppealService) *appealHandler {
 	return &appealHandler{appealService: appealService}
 }
 
@@ -19,7 +19,7 @@ func (h *appealHandler) CreateAppealHandler(c *gin.Context) {
 	var appeal models.Appeal
 
 	if err := c.ShouldBindJSON(&appeal); err != nil {
-		c.JSON(400, gin.H{"error": "Неверные данные"})
+		c.JSON(400, err.Error())
 		return
 	}
 
@@ -34,7 +34,6 @@ func (h *appealHandler) CreateAppealHandler(c *gin.Context) {
 
 // Обработчик для обработки запросов на получение всех обращений
 func (h *appealHandler) GetAllAppealsHandler(c *gin.Context) {
-
 	appeals, err := h.appealService.GetAllAppeals()
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
@@ -46,11 +45,9 @@ func (h *appealHandler) GetAllAppealsHandler(c *gin.Context) {
 
 // Обработчик для обработки запросов получения конкретного обращения
 func (h *appealHandler) GetAppealHandler(c *gin.Context) {
-	var appeal models.Appeal
-
 	id := c.Param("id")
-	appeal, err := h.appealService.GetAppealById(id)
 
+	appeal, err := h.appealService.GetAppealById(id)
 	if err != nil {
 		c.JSON(404, gin.H{"error": err.Error()})
 		return
