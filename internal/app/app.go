@@ -51,7 +51,7 @@ func Run(configPath string) {
 
 	router := transport.NewRouter(&service)
 
-	err = router.Run("192.168.1.204:8080")
+	err = router.Run("0.0.0.0:8080")
 	if err != nil {
 		log.Fatal("Ошибка при запуске сервера ", err)
 	}

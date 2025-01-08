@@ -20,6 +20,10 @@ func NewRouter(service *service.Service) *gin.Engine {
 		MaxAge:           12 * time.Hour,
 	}))
 
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{"message": "Hello, world!"})
+	})
+
 	userHandler := newUserHandler(service.UserService)
 	appealHandler := newAppealHandler(service.AppealService)
 	applicationHandler := newApplicationHandler(service.ApplicationService)
