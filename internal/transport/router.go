@@ -118,6 +118,8 @@ func NewRouter(service *service.Service) *gin.Engine {
 		history := api.Group("/history")
 		{
 			history.GET("/appeals", historyHandler.GetAppeals)
+			history.GET("/applications", historyHandler.GetApplications)
+			history.GET("/shutdowns", historyHandler.GetShutdowns)
 		}
 	}
 

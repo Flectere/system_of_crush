@@ -58,3 +58,92 @@ func (s *HistoryService) GetAppeals() ([]models.Appeal, error) {
 
 	return appeals, nil
 }
+
+func (s *HistoryService) GetShutdowns() ([]models.Shutdown, error) {
+	var allShutdowns []models.Shutdown
+	query :=
+		`
+		SELECT shut.id, shut.address, shut.date, shut.day_count, shut.is_active, con.id, con."name", char.id, char."name", spec.id, spec."name"
+		FROM shutdown shut
+		LEFT JOIN accident_content con ON shut.id_accident = con.id
+		JOIN accident_character char ON con.id_character = char.id
+		JOIN specialization spec ON char.id_specialization = spec.id
+		WHERE is_active = false
+		ORDER BY shut.id
+	`
+	err := disableShutdowns(s.db)
+	if err != nil {
+		return nil, err
+	}
+
+	rows, err := s.db.Pool.Query(context.Background(), query)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		var shutdown models.Shutdown
+
+		err := rows.Scan(
+			&shutdown.ID,
+			&shutdown.Address,
+			&shutdown.Date,
+			&shutdown.DayCount,
+			&shutdown.IsActive,
+			&shutdown.Accident.ID,
+			&shutdown.Accident.Name,
+			&shutdown.Accident.Character.ID,
+			&shutdown.Accident.Character.Name,
+			&shutdown.Accident.Character.Specialization.ID,
+			&shutdown.Accident.Character.Specialization.Name,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		allShutdowns = append(allShutdowns, shutdown)
+	}
+
+	return allShutdowns, nil
+}
+func (s *HistoryService) GetApplications() ([]models.Application, error) {
+	var allApplications []models.Application
+
+	query := `SELECT ap.id, ap.create_date, spec."name", con."name", im."name", st."name", ap.address
+				FROM application ap
+				LEFT JOIN status st ON ap.id_status = st.id
+				LEFT JOIN importance im ON ap.id_importance = im.id
+				LEFT JOIN accident_content con ON ap.id_accident = con.id
+				JOIN accident_character char ON con.id_character = char.id
+				JOIN specialization spec ON char.id_specialization = spec.id
+				WHERE id_status = 3
+				ORDER BY ap.id
+	`
+
+	rows, err := s.db.Pool.Query(context.Background(), query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var application models.Application
+
+		err := rows.Scan(
+			&application.ID,
+			&application.CreateDate,
+			&application.Accident.Character.Specialization.Name,
+			&application.Accident.Name,
+			&application.Importance.Name,
+			&application.Status.Name,
+			&application.Address,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		allApplications = append(allApplications, application)
+	}
+
+	return allApplications, nil
+}

@@ -5,7 +5,7 @@ import (
 )
 
 type Appeal struct {
-	ID               int         `json:"id,omitempty"`
+	ID               *int        `json:"id,omitempty"`
 	Description      *string     `json:"description,omitempty" `
 	CreateDate       *time.Time  `json:"create_date,omitempty"`
 	Accident         Accident    `json:"accident"`

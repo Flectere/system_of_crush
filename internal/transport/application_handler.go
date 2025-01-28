@@ -15,7 +15,7 @@ func newApplicationHandler(applicationService *service.ApplicationService) *appl
 	return &applicationHandler{applicationService: applicationService}
 }
 
-// Обработчик для обработки запросов на создание нового обращения
+// Обработчик для обработки запросов на создание новой заявки
 func (h *applicationHandler) CreateApplicationHandler(c *gin.Context) {
 	var application models.Application
 
@@ -33,7 +33,7 @@ func (h *applicationHandler) CreateApplicationHandler(c *gin.Context) {
 	c.JSON(201, gin.H{"application_id": applicationID})
 }
 
-// Обработчик для обработки запросов на получение всех обращений
+// Обработчик для обработки запросов на получение всех заявок
 func (h *applicationHandler) GetAllApplicationsHandler(c *gin.Context) {
 
 	applications, err := h.applicationService.GetAllApplications()
@@ -45,7 +45,7 @@ func (h *applicationHandler) GetAllApplicationsHandler(c *gin.Context) {
 	c.JSON(200, applications)
 }
 
-// Обработчик для обработки запросов получения конкретного обращения
+// Обработчик для обработки запросов получения конкретной заявки
 func (h *applicationHandler) GetApplicationHandler(c *gin.Context) {
 	var application models.Application
 

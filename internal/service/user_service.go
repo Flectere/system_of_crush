@@ -4,15 +4,14 @@ import (
 	"context"
 	"errors"
 
+	"github.com/Flectere/system_of_crush/config"
 	"github.com/Flectere/system_of_crush/internal/database"
 	"github.com/Flectere/system_of_crush/internal/models"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
-const (
-	salt = "z9pcWW2o19sTcBw7V075"
-)
+var salt string = config.Config.ServerConfig.Salt
 
 type UserService struct {
 	db *database.Database

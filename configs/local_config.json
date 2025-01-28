@@ -1,8 +1,0 @@
-{
-    "username": "postgres",
-    "password": "password",
-    "host": "postgres",
-    "port": 5432,
-    "dbname": "system_of_crush",
-    "sslmode": "disable"
-}

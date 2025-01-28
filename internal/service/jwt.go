@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/Flectere/system_of_crush/config"
 	"github.com/Flectere/system_of_crush/internal/models"
 	"github.com/golang-jwt/jwt/v5"
 )
 
-const secretKey = "emagertlESPifsdjhhfasduBULATAXAXAXAXA"
+var secretKey string = config.Config.ServerConfig.JWT
 
 // Генерация JWT токена
 func generateJWT(user models.User) (string, error) {

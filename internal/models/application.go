@@ -16,4 +16,5 @@ type Application struct {
 	Material      Material   `json:"material,omitempty"`
 	DamageType    Damage     `json:"damage_type,omitempty"`
 	DamagePoint   *string    `json:"damage_point,omitempty"`
+	Brigade       Brigade    `json:"brigade,omitempty"`
 }
