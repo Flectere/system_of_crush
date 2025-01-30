@@ -6,6 +6,10 @@ import (
 	"github.com/Flectere/system_of_crush/internal/service"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+
+	_ "github.com/Flectere/system_of_crush/docs"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func NewRouter(service *service.Service) *gin.Engine {
@@ -37,6 +41,8 @@ func NewRouter(service *service.Service) *gin.Engine {
 	materialHandler := newMaterialHandler(service.MaterialService)
 	statisticHandler := newStatisticHandler(service.StatisticService)
 	historyHandler := newHistoryHandler(service.HistoryService)
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	auth := router.Group("/auth")
 	{

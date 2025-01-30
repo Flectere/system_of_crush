@@ -10,11 +10,9 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var secretKey string = config.Config.ServerConfig.JWT
-
 // Генерация JWT токена
 func generateJWT(user models.User) (string, error) {
-
+	secretKey := config.Config.ServerConfig.JWT
 	claims := jwt.MapClaims{
 		"ID":         user.ID,
 		"first_name": user.FirstName,
@@ -38,6 +36,7 @@ func generateJWT(user models.User) (string, error) {
 // Валидация JWT токена
 func ValidateJWT(tokenString string) (int, error) {
 	claims := jwt.MapClaims{}
+	secretKey := config.Config.ServerConfig.JWT
 
 	token, err := jwt.ParseWithClaims(tokenString, &claims, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {

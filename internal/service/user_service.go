@@ -11,8 +11,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var salt string = config.Config.ServerConfig.Salt
-
 type UserService struct {
 	db *database.Database
 }
@@ -23,12 +21,14 @@ func NewUserService(db *database.Database) *UserService {
 
 // Хэширование пароля
 func hashPassword(password string) (string, error) {
+	salt := config.Config.ServerConfig.Salt
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password+salt), 12)
 	return string(hashedPassword), err
 }
 
 // Проверка соответсвия пароля и хэшированного пароля из базы
 func checkPassword(password, hashedPassword string) error {
+	salt := config.Config.ServerConfig.Salt
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password+salt))
 }
 
