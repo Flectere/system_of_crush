@@ -5,7 +5,7 @@
 -- Dumped from database version 17.2 (Debian 17.2-1.pgdg120+1)
 -- Dumped by pg_dump version 17.2
 
--- Started on 2025-01-10 15:34:10 UTC
+-- Started on 2025-02-13 14:15:30 UTC
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -24,12 +24,10 @@ SET row_security = off;
 -- Name: public; Type: SCHEMA; Schema: -; Owner: pg_database_owner
 --
 
-
-
 ALTER SCHEMA public OWNER TO pg_database_owner;
 
 --
--- TOC entry 3501 (class 0 OID 0)
+-- TOC entry 3502 (class 0 OID 0)
 -- Dependencies: 4
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: pg_database_owner
 --
@@ -72,7 +70,7 @@ CREATE SEQUENCE public.accident_character_id_seq
 ALTER SEQUENCE public.accident_character_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3502 (class 0 OID 0)
+-- TOC entry 3503 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: accident_character_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -111,7 +109,7 @@ CREATE SEQUENCE public.accident_content_id_seq
 ALTER SEQUENCE public.accident_content_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3503 (class 0 OID 0)
+-- TOC entry 3504 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: accident_content_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -157,7 +155,7 @@ CREATE SEQUENCE public.appeal_id_seq
 ALTER SEQUENCE public.appeal_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3504 (class 0 OID 0)
+-- TOC entry 3505 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: appeal_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -204,7 +202,7 @@ CREATE SEQUENCE public.application_id_seq
 ALTER SEQUENCE public.application_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3505 (class 0 OID 0)
+-- TOC entry 3506 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: application_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -213,7 +211,7 @@ ALTER SEQUENCE public.application_id_seq OWNED BY public.application.id;
 
 
 --
--- TOC entry 242 (class 1259 OID 16561)
+-- TOC entry 225 (class 1259 OID 16409)
 -- Name: brigade; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -227,7 +225,7 @@ CREATE TABLE public.brigade (
 ALTER TABLE public.brigade OWNER TO postgres;
 
 --
--- TOC entry 241 (class 1259 OID 16560)
+-- TOC entry 226 (class 1259 OID 16412)
 -- Name: brigade_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -243,8 +241,8 @@ CREATE SEQUENCE public.brigade_id_seq
 ALTER SEQUENCE public.brigade_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3506 (class 0 OID 0)
--- Dependencies: 241
+-- TOC entry 3507 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: brigade_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -252,7 +250,7 @@ ALTER SEQUENCE public.brigade_id_seq OWNED BY public.brigade.id;
 
 
 --
--- TOC entry 225 (class 1259 OID 16409)
+-- TOC entry 227 (class 1259 OID 16413)
 -- Name: damage_type; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -265,7 +263,7 @@ CREATE TABLE public.damage_type (
 ALTER TABLE public.damage_type OWNER TO postgres;
 
 --
--- TOC entry 226 (class 1259 OID 16414)
+-- TOC entry 228 (class 1259 OID 16418)
 -- Name: damage_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -281,8 +279,8 @@ CREATE SEQUENCE public.damage_type_id_seq
 ALTER SEQUENCE public.damage_type_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3507 (class 0 OID 0)
--- Dependencies: 226
+-- TOC entry 3508 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: damage_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -290,7 +288,7 @@ ALTER SEQUENCE public.damage_type_id_seq OWNED BY public.damage_type.id;
 
 
 --
--- TOC entry 227 (class 1259 OID 16415)
+-- TOC entry 229 (class 1259 OID 16419)
 -- Name: importance; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -303,7 +301,7 @@ CREATE TABLE public.importance (
 ALTER TABLE public.importance OWNER TO postgres;
 
 --
--- TOC entry 228 (class 1259 OID 16420)
+-- TOC entry 230 (class 1259 OID 16424)
 -- Name: importance_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -319,8 +317,8 @@ CREATE SEQUENCE public.importance_id_seq
 ALTER SEQUENCE public.importance_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3508 (class 0 OID 0)
--- Dependencies: 228
+-- TOC entry 3509 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: importance_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -328,7 +326,7 @@ ALTER SEQUENCE public.importance_id_seq OWNED BY public.importance.id;
 
 
 --
--- TOC entry 229 (class 1259 OID 16421)
+-- TOC entry 231 (class 1259 OID 16425)
 -- Name: material_type; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -341,7 +339,7 @@ CREATE TABLE public.material_type (
 ALTER TABLE public.material_type OWNER TO postgres;
 
 --
--- TOC entry 230 (class 1259 OID 16426)
+-- TOC entry 232 (class 1259 OID 16430)
 -- Name: material_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -357,8 +355,8 @@ CREATE SEQUENCE public.material_type_id_seq
 ALTER SEQUENCE public.material_type_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3509 (class 0 OID 0)
--- Dependencies: 230
+-- TOC entry 3510 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: material_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -366,7 +364,7 @@ ALTER SEQUENCE public.material_type_id_seq OWNED BY public.material_type.id;
 
 
 --
--- TOC entry 231 (class 1259 OID 16427)
+-- TOC entry 233 (class 1259 OID 16431)
 -- Name: role; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -379,7 +377,7 @@ CREATE TABLE public.role (
 ALTER TABLE public.role OWNER TO postgres;
 
 --
--- TOC entry 232 (class 1259 OID 16432)
+-- TOC entry 234 (class 1259 OID 16436)
 -- Name: role_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -395,8 +393,8 @@ CREATE SEQUENCE public.role_id_seq
 ALTER SEQUENCE public.role_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3510 (class 0 OID 0)
--- Dependencies: 232
+-- TOC entry 3511 (class 0 OID 0)
+-- Dependencies: 234
 -- Name: role_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -404,7 +402,7 @@ ALTER SEQUENCE public.role_id_seq OWNED BY public.role.id;
 
 
 --
--- TOC entry 233 (class 1259 OID 16433)
+-- TOC entry 235 (class 1259 OID 16437)
 -- Name: shutdown; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -423,7 +421,7 @@ CREATE TABLE public.shutdown (
 ALTER TABLE public.shutdown OWNER TO postgres;
 
 --
--- TOC entry 234 (class 1259 OID 16438)
+-- TOC entry 236 (class 1259 OID 16442)
 -- Name: shutdown_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -439,8 +437,8 @@ CREATE SEQUENCE public.shutdown_id_seq
 ALTER SEQUENCE public.shutdown_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3511 (class 0 OID 0)
--- Dependencies: 234
+-- TOC entry 3512 (class 0 OID 0)
+-- Dependencies: 236
 -- Name: shutdown_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -448,7 +446,7 @@ ALTER SEQUENCE public.shutdown_id_seq OWNED BY public.shutdown.id;
 
 
 --
--- TOC entry 235 (class 1259 OID 16439)
+-- TOC entry 237 (class 1259 OID 16443)
 -- Name: specialization; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -461,7 +459,7 @@ CREATE TABLE public.specialization (
 ALTER TABLE public.specialization OWNER TO postgres;
 
 --
--- TOC entry 236 (class 1259 OID 16444)
+-- TOC entry 238 (class 1259 OID 16448)
 -- Name: specialization_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -477,8 +475,8 @@ CREATE SEQUENCE public.specialization_id_seq
 ALTER SEQUENCE public.specialization_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3512 (class 0 OID 0)
--- Dependencies: 236
+-- TOC entry 3513 (class 0 OID 0)
+-- Dependencies: 238
 -- Name: specialization_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -486,7 +484,7 @@ ALTER SEQUENCE public.specialization_id_seq OWNED BY public.specialization.id;
 
 
 --
--- TOC entry 237 (class 1259 OID 16445)
+-- TOC entry 239 (class 1259 OID 16449)
 -- Name: status; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -499,7 +497,7 @@ CREATE TABLE public.status (
 ALTER TABLE public.status OWNER TO postgres;
 
 --
--- TOC entry 238 (class 1259 OID 16450)
+-- TOC entry 240 (class 1259 OID 16454)
 -- Name: status_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -515,8 +513,8 @@ CREATE SEQUENCE public.status_id_seq
 ALTER SEQUENCE public.status_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3513 (class 0 OID 0)
--- Dependencies: 238
+-- TOC entry 3514 (class 0 OID 0)
+-- Dependencies: 240
 -- Name: status_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -524,7 +522,7 @@ ALTER SEQUENCE public.status_id_seq OWNED BY public.status.id;
 
 
 --
--- TOC entry 239 (class 1259 OID 16451)
+-- TOC entry 241 (class 1259 OID 16455)
 -- Name: user; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -542,7 +540,7 @@ CREATE TABLE public."user" (
 ALTER TABLE public."user" OWNER TO postgres;
 
 --
--- TOC entry 240 (class 1259 OID 16456)
+-- TOC entry 242 (class 1259 OID 16460)
 -- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -558,8 +556,8 @@ CREATE SEQUENCE public.user_id_seq
 ALTER SEQUENCE public.user_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3514 (class 0 OID 0)
--- Dependencies: 240
+-- TOC entry 3515 (class 0 OID 0)
+-- Dependencies: 242
 -- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -567,7 +565,22 @@ ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
 
 
 --
--- TOC entry 3270 (class 2604 OID 16457)
+-- TOC entry 243 (class 1259 OID 16577)
+-- Name: user_id_seq1; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public."user" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.user_id_seq1
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- TOC entry 3271 (class 2604 OID 16461)
 -- Name: accident_character id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -575,7 +588,7 @@ ALTER TABLE ONLY public.accident_character ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
--- TOC entry 3271 (class 2604 OID 16458)
+-- TOC entry 3272 (class 2604 OID 16462)
 -- Name: accident_content id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -583,7 +596,7 @@ ALTER TABLE ONLY public.accident_content ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 3272 (class 2604 OID 16459)
+-- TOC entry 3273 (class 2604 OID 16463)
 -- Name: appeal id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -591,7 +604,7 @@ ALTER TABLE ONLY public.appeal ALTER COLUMN id SET DEFAULT nextval('public.appea
 
 
 --
--- TOC entry 3273 (class 2604 OID 16460)
+-- TOC entry 3274 (class 2604 OID 16464)
 -- Name: application id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -599,7 +612,7 @@ ALTER TABLE ONLY public.application ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 3282 (class 2604 OID 16564)
+-- TOC entry 3275 (class 2604 OID 16465)
 -- Name: brigade id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -607,7 +620,7 @@ ALTER TABLE ONLY public.brigade ALTER COLUMN id SET DEFAULT nextval('public.brig
 
 
 --
--- TOC entry 3274 (class 2604 OID 16461)
+-- TOC entry 3276 (class 2604 OID 16466)
 -- Name: damage_type id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -615,7 +628,7 @@ ALTER TABLE ONLY public.damage_type ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 3275 (class 2604 OID 16462)
+-- TOC entry 3277 (class 2604 OID 16467)
 -- Name: importance id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -623,7 +636,7 @@ ALTER TABLE ONLY public.importance ALTER COLUMN id SET DEFAULT nextval('public.i
 
 
 --
--- TOC entry 3276 (class 2604 OID 16463)
+-- TOC entry 3278 (class 2604 OID 16468)
 -- Name: material_type id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -631,7 +644,7 @@ ALTER TABLE ONLY public.material_type ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 3277 (class 2604 OID 16464)
+-- TOC entry 3279 (class 2604 OID 16469)
 -- Name: role id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -639,7 +652,7 @@ ALTER TABLE ONLY public.role ALTER COLUMN id SET DEFAULT nextval('public.role_id
 
 
 --
--- TOC entry 3278 (class 2604 OID 16465)
+-- TOC entry 3280 (class 2604 OID 16470)
 -- Name: shutdown id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -647,7 +660,7 @@ ALTER TABLE ONLY public.shutdown ALTER COLUMN id SET DEFAULT nextval('public.shu
 
 
 --
--- TOC entry 3279 (class 2604 OID 16466)
+-- TOC entry 3281 (class 2604 OID 16471)
 -- Name: specialization id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -655,19 +668,11 @@ ALTER TABLE ONLY public.specialization ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 3280 (class 2604 OID 16467)
+-- TOC entry 3282 (class 2604 OID 16472)
 -- Name: status id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.status ALTER COLUMN id SET DEFAULT nextval('public.status_id_seq'::regclass);
-
-
---
--- TOC entry 3281 (class 2604 OID 16468)
--- Name: user id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."user" ALTER COLUMN id SET DEFAULT nextval('public.user_id_seq'::regclass);
 
 
 --
@@ -748,16 +753,16 @@ INSERT INTO public.application (id, description, create_date, id_accident, id_im
 
 
 --
--- TOC entry 3495 (class 0 OID 16561)
--- Dependencies: 242
+-- TOC entry 3478 (class 0 OID 16409)
+-- Dependencies: 225
 -- Data for Name: brigade; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 
 
 --
--- TOC entry 3478 (class 0 OID 16409)
--- Dependencies: 225
+-- TOC entry 3480 (class 0 OID 16413)
+-- Dependencies: 227
 -- Data for Name: damage_type; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -770,8 +775,8 @@ INSERT INTO public.damage_type (id, name) VALUES (6, 'Износ');
 
 
 --
--- TOC entry 3480 (class 0 OID 16415)
--- Dependencies: 227
+-- TOC entry 3482 (class 0 OID 16419)
+-- Dependencies: 229
 -- Data for Name: importance; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -781,8 +786,8 @@ INSERT INTO public.importance (id, name) VALUES (3, 'Низкая');
 
 
 --
--- TOC entry 3482 (class 0 OID 16421)
--- Dependencies: 229
+-- TOC entry 3484 (class 0 OID 16425)
+-- Dependencies: 231
 -- Data for Name: material_type; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -793,8 +798,8 @@ INSERT INTO public.material_type (id, name) VALUES (4, 'ПВХ');
 
 
 --
--- TOC entry 3484 (class 0 OID 16427)
--- Dependencies: 231
+-- TOC entry 3486 (class 0 OID 16431)
+-- Dependencies: 233
 -- Data for Name: role; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -804,8 +809,8 @@ INSERT INTO public.role (id, name) VALUES (3, 'Бригадир');
 
 
 --
--- TOC entry 3486 (class 0 OID 16433)
--- Dependencies: 233
+-- TOC entry 3488 (class 0 OID 16437)
+-- Dependencies: 235
 -- Data for Name: shutdown; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -823,8 +828,8 @@ INSERT INTO public.shutdown (id, address, id_accident, date, is_active, day_coun
 
 
 --
--- TOC entry 3488 (class 0 OID 16439)
--- Dependencies: 235
+-- TOC entry 3490 (class 0 OID 16443)
+-- Dependencies: 237
 -- Data for Name: specialization; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -832,8 +837,8 @@ INSERT INTO public.specialization (id, name) VALUES (1, 'Водоснабжен�
 
 
 --
--- TOC entry 3490 (class 0 OID 16445)
--- Dependencies: 237
+-- TOC entry 3492 (class 0 OID 16449)
+-- Dependencies: 239
 -- Data for Name: status; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -843,22 +848,18 @@ INSERT INTO public.status (id, name) VALUES (3, 'Завершена');
 
 
 --
--- TOC entry 3492 (class 0 OID 16451)
--- Dependencies: 239
+-- TOC entry 3494 (class 0 OID 16455)
+-- Dependencies: 241
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public."user" (id, login, password, last_name, first_name, patronymic, id_role) VALUES (1, 'adminUrban', '$2a$12$RVI/9df.QlBOz4.4i2ldiemnw3kJRtG8tK3y7dQAnSP0z4186cf/6', 'Скрылева', 'Лиана', 'Александровна', 1);
-INSERT INTO public."user" (id, login, password, last_name, first_name, patronymic, id_role) VALUES (7, 'kulD', '$2a$12$pvlFlDqP/47JAGd57HCoPu5Wj2Bx.p0JRD.r64owUYkwdMk/TKkM2', 'Куликов', 'Дмитрий', 'Николаевич', 2);
-INSERT INTO public."user" (id, login, password, last_name, first_name, patronymic, id_role) VALUES (8, 'nikA', '$2a$12$T.l81/HVq1gPStQZ1dO6ruKvaZIIKNjFEiLVChAZzpLebauVcmePe', 'Акифьев', 'Никита', 'Олегович', 2);
-INSERT INTO public."user" (id, login, password, last_name, first_name, patronymic, id_role) VALUES (9, 'albS', '$2a$12$aldH.CGFPm.5fjw4coAILOF0W0QBJuqT6Yx4LSblsAWB9xBuWeir6', 'Скрылева', 'Альбина', 'Александровна', 2);
-INSERT INTO public."user" (id, login, password, last_name, first_name, patronymic, id_role) VALUES (10, 'ivan12', '$2a$12$hHGYZpz5vsb5TPJeDkhHPeI.Ib6jBpUBPG5U/FqRDAD9C9wJviNuS', 'Раричев', 'Иван', 'Николаевич', 2);
-INSERT INTO public."user" (id, login, password, last_name, first_name, patronymic, id_role) VALUES (11, 'evg13', '$2a$12$0v7p0UUmcUKrdFzofoRSiuXFsCNsH4OdmYElrX0s6w..BG49npRkK', 'Мамонов', 'Евгений', 'Васильевич', 2);
-INSERT INTO public."user" (id, login, password, last_name, first_name, patronymic, id_role) VALUES (12, 'bulat', '$2a$12$l4xvRVCPzNskmmkbD/vyM.FzHRsPZsIlV.FkTo21MPR2evlcTpqCK', 'Хурматуллин ', 'Булат', 'Саматович', 2);
+INSERT INTO public."user" (id, login, password, last_name, first_name, patronymic, id_role) OVERRIDING SYSTEM VALUE VALUES (1, '1', '$2a$12$3kapLzWi5fylEuZ6fM4T6eqgOGohEXCXx4Zngv3gpTPxxTruvC2.2', 'Хурматуллин', 'Булат', 'Саматович', 1);
+INSERT INTO public."user" (id, login, password, last_name, first_name, patronymic, id_role) OVERRIDING SYSTEM VALUE VALUES (2, '2', '$2a$12$6s49YfZrlXg3xi8SK7PFe.moYS7OQgoypUr7GBgimBxla.B4gy5nC', 'Столяров', 'Семен', 'Петрович', 3);
+INSERT INTO public."user" (id, login, password, last_name, first_name, patronymic, id_role) OVERRIDING SYSTEM VALUE VALUES (4, '3', '$2a$12$5E0YhJG1lBIUBi7Fz4t.1.VThBoKOulmYJTH85t3SJFL3E.XAUoYm', 'Васильева', 'Анжела', 'Ларисовна', 2);
 
 
 --
--- TOC entry 3515 (class 0 OID 0)
+-- TOC entry 3516 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: accident_character_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -867,7 +868,7 @@ SELECT pg_catalog.setval('public.accident_character_id_seq', 1, false);
 
 
 --
--- TOC entry 3516 (class 0 OID 0)
+-- TOC entry 3517 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: accident_content_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -876,7 +877,7 @@ SELECT pg_catalog.setval('public.accident_content_id_seq', 1, false);
 
 
 --
--- TOC entry 3517 (class 0 OID 0)
+-- TOC entry 3518 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: appeal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -885,7 +886,7 @@ SELECT pg_catalog.setval('public.appeal_id_seq', 17, true);
 
 
 --
--- TOC entry 3518 (class 0 OID 0)
+-- TOC entry 3519 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: application_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -894,8 +895,8 @@ SELECT pg_catalog.setval('public.application_id_seq', 27, true);
 
 
 --
--- TOC entry 3519 (class 0 OID 0)
--- Dependencies: 241
+-- TOC entry 3520 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: brigade_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -903,8 +904,8 @@ SELECT pg_catalog.setval('public.brigade_id_seq', 1, false);
 
 
 --
--- TOC entry 3520 (class 0 OID 0)
--- Dependencies: 226
+-- TOC entry 3521 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: damage_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -912,8 +913,8 @@ SELECT pg_catalog.setval('public.damage_type_id_seq', 6, true);
 
 
 --
--- TOC entry 3521 (class 0 OID 0)
--- Dependencies: 228
+-- TOC entry 3522 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: importance_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -921,8 +922,8 @@ SELECT pg_catalog.setval('public.importance_id_seq', 3, true);
 
 
 --
--- TOC entry 3522 (class 0 OID 0)
--- Dependencies: 230
+-- TOC entry 3523 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: material_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -930,8 +931,8 @@ SELECT pg_catalog.setval('public.material_type_id_seq', 4, true);
 
 
 --
--- TOC entry 3523 (class 0 OID 0)
--- Dependencies: 232
+-- TOC entry 3524 (class 0 OID 0)
+-- Dependencies: 234
 -- Name: role_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -939,8 +940,8 @@ SELECT pg_catalog.setval('public.role_id_seq', 3, true);
 
 
 --
--- TOC entry 3524 (class 0 OID 0)
--- Dependencies: 234
+-- TOC entry 3525 (class 0 OID 0)
+-- Dependencies: 236
 -- Name: shutdown_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -948,8 +949,8 @@ SELECT pg_catalog.setval('public.shutdown_id_seq', 16, true);
 
 
 --
--- TOC entry 3525 (class 0 OID 0)
--- Dependencies: 236
+-- TOC entry 3526 (class 0 OID 0)
+-- Dependencies: 238
 -- Name: specialization_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -957,8 +958,8 @@ SELECT pg_catalog.setval('public.specialization_id_seq', 1, true);
 
 
 --
--- TOC entry 3526 (class 0 OID 0)
--- Dependencies: 238
+-- TOC entry 3527 (class 0 OID 0)
+-- Dependencies: 240
 -- Name: status_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -966,8 +967,8 @@ SELECT pg_catalog.setval('public.status_id_seq', 3, true);
 
 
 --
--- TOC entry 3527 (class 0 OID 0)
--- Dependencies: 240
+-- TOC entry 3528 (class 0 OID 0)
+-- Dependencies: 242
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -975,7 +976,16 @@ SELECT pg_catalog.setval('public.user_id_seq', 12, true);
 
 
 --
--- TOC entry 3284 (class 2606 OID 16470)
+-- TOC entry 3529 (class 0 OID 0)
+-- Dependencies: 243
+-- Name: user_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.user_id_seq1', 4, true);
+
+
+--
+-- TOC entry 3284 (class 2606 OID 16475)
 -- Name: accident_character accident_character_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -984,7 +994,7 @@ ALTER TABLE ONLY public.accident_character
 
 
 --
--- TOC entry 3286 (class 2606 OID 16472)
+-- TOC entry 3286 (class 2606 OID 16477)
 -- Name: accident_content accident_content_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -993,7 +1003,7 @@ ALTER TABLE ONLY public.accident_content
 
 
 --
--- TOC entry 3288 (class 2606 OID 16474)
+-- TOC entry 3288 (class 2606 OID 16479)
 -- Name: appeal appeal_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1002,7 +1012,7 @@ ALTER TABLE ONLY public.appeal
 
 
 --
--- TOC entry 3290 (class 2606 OID 16476)
+-- TOC entry 3290 (class 2606 OID 16481)
 -- Name: application application_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1011,7 +1021,7 @@ ALTER TABLE ONLY public.application
 
 
 --
--- TOC entry 3310 (class 2606 OID 16566)
+-- TOC entry 3292 (class 2606 OID 16483)
 -- Name: brigade brigade_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1020,7 +1030,7 @@ ALTER TABLE ONLY public.brigade
 
 
 --
--- TOC entry 3292 (class 2606 OID 16478)
+-- TOC entry 3294 (class 2606 OID 16485)
 -- Name: damage_type damage_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1029,7 +1039,7 @@ ALTER TABLE ONLY public.damage_type
 
 
 --
--- TOC entry 3294 (class 2606 OID 16480)
+-- TOC entry 3296 (class 2606 OID 16487)
 -- Name: importance importance_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1038,7 +1048,7 @@ ALTER TABLE ONLY public.importance
 
 
 --
--- TOC entry 3296 (class 2606 OID 16482)
+-- TOC entry 3298 (class 2606 OID 16489)
 -- Name: material_type material_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1047,7 +1057,7 @@ ALTER TABLE ONLY public.material_type
 
 
 --
--- TOC entry 3298 (class 2606 OID 16484)
+-- TOC entry 3300 (class 2606 OID 16491)
 -- Name: role role_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1056,7 +1066,7 @@ ALTER TABLE ONLY public.role
 
 
 --
--- TOC entry 3300 (class 2606 OID 16486)
+-- TOC entry 3302 (class 2606 OID 16493)
 -- Name: shutdown shutdown_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1065,7 +1075,7 @@ ALTER TABLE ONLY public.shutdown
 
 
 --
--- TOC entry 3302 (class 2606 OID 16488)
+-- TOC entry 3304 (class 2606 OID 16495)
 -- Name: specialization specialization_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1074,7 +1084,7 @@ ALTER TABLE ONLY public.specialization
 
 
 --
--- TOC entry 3304 (class 2606 OID 16490)
+-- TOC entry 3306 (class 2606 OID 16497)
 -- Name: status status_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1083,7 +1093,7 @@ ALTER TABLE ONLY public.status
 
 
 --
--- TOC entry 3306 (class 2606 OID 16492)
+-- TOC entry 3308 (class 2606 OID 16499)
 -- Name: user user_login_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1092,7 +1102,7 @@ ALTER TABLE ONLY public."user"
 
 
 --
--- TOC entry 3308 (class 2606 OID 16494)
+-- TOC entry 3310 (class 2606 OID 16501)
 -- Name: user user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1101,7 +1111,7 @@ ALTER TABLE ONLY public."user"
 
 
 --
--- TOC entry 3311 (class 2606 OID 16495)
+-- TOC entry 3311 (class 2606 OID 16502)
 -- Name: accident_character fk_accident_character_specialization; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1110,7 +1120,7 @@ ALTER TABLE ONLY public.accident_character
 
 
 --
--- TOC entry 3312 (class 2606 OID 16500)
+-- TOC entry 3312 (class 2606 OID 16507)
 -- Name: accident_content fk_accident_content_character; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1119,7 +1129,7 @@ ALTER TABLE ONLY public.accident_content
 
 
 --
--- TOC entry 3313 (class 2606 OID 16505)
+-- TOC entry 3313 (class 2606 OID 16512)
 -- Name: appeal fk_appeal_accident; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1128,7 +1138,7 @@ ALTER TABLE ONLY public.appeal
 
 
 --
--- TOC entry 3314 (class 2606 OID 16510)
+-- TOC entry 3314 (class 2606 OID 16517)
 -- Name: appeal fk_appeal_application; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1137,7 +1147,7 @@ ALTER TABLE ONLY public.appeal
 
 
 --
--- TOC entry 3315 (class 2606 OID 16515)
+-- TOC entry 3315 (class 2606 OID 16522)
 -- Name: application fk_application_accident; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1146,7 +1156,7 @@ ALTER TABLE ONLY public.application
 
 
 --
--- TOC entry 3316 (class 2606 OID 16572)
+-- TOC entry 3316 (class 2606 OID 16527)
 -- Name: application fk_application_brigade; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1155,7 +1165,7 @@ ALTER TABLE ONLY public.application
 
 
 --
--- TOC entry 3317 (class 2606 OID 16520)
+-- TOC entry 3317 (class 2606 OID 16532)
 -- Name: application fk_application_damage; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1164,7 +1174,7 @@ ALTER TABLE ONLY public.application
 
 
 --
--- TOC entry 3318 (class 2606 OID 16525)
+-- TOC entry 3318 (class 2606 OID 16537)
 -- Name: application fk_application_importance; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1173,7 +1183,7 @@ ALTER TABLE ONLY public.application
 
 
 --
--- TOC entry 3319 (class 2606 OID 16530)
+-- TOC entry 3319 (class 2606 OID 16542)
 -- Name: application fk_application_material; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1182,7 +1192,7 @@ ALTER TABLE ONLY public.application
 
 
 --
--- TOC entry 3320 (class 2606 OID 16535)
+-- TOC entry 3320 (class 2606 OID 16547)
 -- Name: application fk_application_status; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1191,7 +1201,7 @@ ALTER TABLE ONLY public.application
 
 
 --
--- TOC entry 3324 (class 2606 OID 16567)
+-- TOC entry 3321 (class 2606 OID 16552)
 -- Name: brigade fk_brigade_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1200,7 +1210,7 @@ ALTER TABLE ONLY public.brigade
 
 
 --
--- TOC entry 3321 (class 2606 OID 16540)
+-- TOC entry 3322 (class 2606 OID 16557)
 -- Name: shutdown fk_shutdown_accident; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1209,7 +1219,7 @@ ALTER TABLE ONLY public.shutdown
 
 
 --
--- TOC entry 3322 (class 2606 OID 16545)
+-- TOC entry 3323 (class 2606 OID 16562)
 -- Name: shutdown fk_shutdown_application; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1218,7 +1228,7 @@ ALTER TABLE ONLY public.shutdown
 
 
 --
--- TOC entry 3323 (class 2606 OID 16550)
+-- TOC entry 3324 (class 2606 OID 16567)
 -- Name: user fk_user_role; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1226,7 +1236,7 @@ ALTER TABLE ONLY public."user"
     ADD CONSTRAINT fk_user_role FOREIGN KEY (id_role) REFERENCES public.role(id);
 
 
--- Completed on 2025-01-10 15:34:10 UTC
+-- Completed on 2025-02-13 14:15:30 UTC
 
 --
 -- PostgreSQL database dump complete

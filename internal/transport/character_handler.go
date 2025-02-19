@@ -21,7 +21,3 @@ func (h *characterHandler) GetAllCharactersHandler(c *gin.Context) {
 
 	c.JSON(200, characters)
 }
-
-func (h *characterHandler) GetCharacterHandler(c *gin.Context) {
-
-}

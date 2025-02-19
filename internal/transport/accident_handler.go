@@ -22,15 +22,3 @@ func (h *accidentHandler) GetAllAccidentsHandler(c *gin.Context) {
 
 	c.JSON(200, accidents)
 }
-
-func (h *accidentHandler) GetAccidentHandler(c *gin.Context) {
-	id := c.Param("id")
-
-	accident, err := h.accidentService.GetAccidentById(id)
-	if err != nil {
-		c.JSON(404, err.Error())
-		return
-	}
-
-	c.JSON(200, accident)
-}

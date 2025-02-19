@@ -87,6 +87,49 @@ func (s *ApplicationService) GetAllApplications() ([]models.Application, error) 
 	return allApplications, nil
 }
 
+// Получение всех заявок у бригадира
+func (s *ApplicationService) GetAllBrigadirApplications(id string) ([]models.Application, error) {
+	var allApplications []models.Application
+
+	query := `SELECT ap.id, ap.create_date, spec."name", con."name", im."name", st."name", ap.address
+				FROM application ap
+				LEFT JOIN status st ON ap.id_status = st.id
+				LEFT JOIN importance im ON ap.id_importance = im.id
+				LEFT JOIN accident_content con ON ap.id_accident = con.id
+				JOIN accident_character char ON con.id_character = char.id
+				JOIN specialization spec ON char.id_specialization = spec.id
+				WHERE id_brigade = $1
+				ORDER BY ap.id
+	`
+
+	rows, err := s.db.Pool.Query(context.Background(), query, id)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var application models.Application
+
+		err := rows.Scan(
+			&application.ID,
+			&application.CreateDate,
+			&application.Accident.Character.Specialization.Name,
+			&application.Accident.Name,
+			&application.Importance.Name,
+			&application.Status.Name,
+			&application.Address,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		allApplications = append(allApplications, application)
+	}
+
+	return allApplications, nil
+}
+
 // Получение заявки по id
 func (s *ApplicationService) GetApplicationById(id string) (models.Application, error) {
 	var application models.Application

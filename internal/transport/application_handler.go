@@ -45,6 +45,17 @@ func (h *applicationHandler) GetAllApplicationsHandler(c *gin.Context) {
 	c.JSON(200, applications)
 }
 
+// Обработчик для обработки запросов на получение заявок у бригадира
+func (h *applicationHandler) GetAllBrigadirApplicationsHandler(c *gin.Context) {
+	brigadirID := c.Param("id_brigadir")
+	applications, err := h.applicationService.GetAllBrigadirApplications(brigadirID)
+	if err != nil {
+		c.JSON(404, gin.H{"error": err.Error()})
+	}
+
+	c.JSON(200, applications)
+}
+
 // Обработчик для обработки запросов получения конкретной заявки
 func (h *applicationHandler) GetApplicationHandler(c *gin.Context) {
 	var application models.Application

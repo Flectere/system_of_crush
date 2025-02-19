@@ -15,11 +15,6 @@ func NewStatusService(db *database.Database) *StatusService {
 	return &StatusService{db: db}
 }
 
-func (s *StatusService) GetStatusById(id string) (models.Status, error) {
-	// Выполнить запрос к БД и вернуть информацию об аварии
-	return models.Status{}, nil
-}
-
 func (s *StatusService) GetAllStatuses() ([]models.Status, error) {
 	var statuses []models.Status
 	query := `SELECT id, name FROM status`

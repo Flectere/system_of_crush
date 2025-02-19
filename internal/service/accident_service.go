@@ -15,11 +15,6 @@ func NewAccidentService(db *database.Database) *AccidentService {
 	return &AccidentService{db: db}
 }
 
-func (s *AccidentService) GetAccidentById(id string) (models.Accident, error) {
-	// Выполнить запрос к БД и вернуть информацию об аварии
-	return models.Accident{}, nil
-}
-
 func (s *AccidentService) GetAllAccidents() ([]models.Accident, error) {
 	var accidents []models.Accident
 	query := `SELECT ac.id, ac.name, char.id, char.name, spec.id, spec.name

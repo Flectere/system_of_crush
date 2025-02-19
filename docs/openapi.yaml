@@ -1,0 +1,1085 @@
+openapi: 3.0.0
+info:
+  title: UrbanFix
+  description: Описание REST-API для сбора обращений по проблемам водоснабжения.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+security:
+  - bearerAuth: []  
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Accident:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        accident_character:
+          $ref: '#/components/schemas/AccidentCharacter'
+
+    AccidentCharacter:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        specialization:
+          $ref: '#/components/schemas/Specialization'
+          
+    Appeal:
+      type: object
+      properties:
+        id:
+          type: integer
+        applicant_name:
+          type: string
+        applicant_number:
+          type: string
+        address:
+          type: string
+        create_date:
+          type: string
+          format: date-time
+        description:
+          type: string
+        additional_number:
+          type: string
+        is_active:
+          type: boolean
+        accident:
+          $ref: '#/components/schemas/Accident'
+        application:
+          $ref: '#/components/schemas/Application'
+
+    Application:
+      type: object
+      properties:
+        id:
+          type: integer
+        address:
+          type: string
+        create_date:
+          type: string
+          format: date-time
+        description:
+          type: string
+        cause:
+          type: string
+        damage_point:
+          type: string
+        importance:
+          $ref: '#/components/schemas/Importance'
+        damage_type:
+          $ref: '#/components/schemas/Damage'
+        material:
+          $ref: '#/components/schemas/Material'
+        status:
+          $ref: '#/components/schemas/Status'
+        accident:
+          $ref: '#/components/schemas/Accident'
+        brigade:
+          $ref: '#/components/schemas/Brigade'
+
+    Brigade:
+      type: object
+      properties:
+        id:
+          type: integer
+        people_count:
+          type: integer
+        brigadir:
+          $ref: '#/components/schemas/User'
+
+    Damage:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    Importance:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    Material:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    Shutdown:
+      type: object
+      properties:
+        id:
+          type: integer
+        address:
+          type: string
+        date:
+          type: string
+          format: date
+        day_count:
+          type: integer
+        description:
+          type: string
+        is_active:
+          type: boolean
+        accident:
+          $ref: '#/components/schemas/Accident'
+        application:
+          $ref: '#/components/schemas/Application'
+
+    Specialization:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+
+    Statistic:
+      type: object
+      properties:
+        appeals:
+          type: integer
+        applications:
+          type: integer
+        shutdowns:
+          type: integer
+        appeals_applications:
+          type: integer
+          description: Обращения к которым прикреплена заявка
+
+    Status:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    
+    UserLogin:
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+          
+    User:
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+        last_name:
+          type: string
+        first_name:
+          type: string
+        patronymic:
+          type: string
+        role:
+          $ref: '#/components/schemas/Role'
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+          
+paths:
+  /api/accidents:
+    get:
+      summary: Получить все аварии
+      tags:
+        - Аварии
+      description: Возвращает список всех аварий
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Accident'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/appeals:
+    get:
+      summary: Получить все обращения
+      tags:
+        - Обращения
+      description: Возвращает список всех обращений
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appeal'
+                  
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Создать обращение
+      tags:
+        - Обращения
+      description: Добавляет новое обращение в систему
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appeal'
+      responses:
+        '201':
+          description: ID созданного обращения
+          content:
+            application/json:
+              schema:
+                type: integer
+        '400':
+          description: Ошибка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Обновить обращение
+      tags:
+        - Обращения
+      description: Обновляет данные существующего обращения
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appeal'
+      responses:
+        '200':
+          description: Обращение обновлено
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Ошибка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/appeals/{id}:
+    get:
+      summary: Получить обращение по ID
+      tags:
+        - Обращения
+      description: Возвращает информацию об обращении по ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID обращения
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appeal'
+        '404':
+          description: Обращение не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+                
+  /api/applications:
+    get:
+      summary: Получение всех заявок
+      tags:
+        - Заявки
+      description: Возвращает список всех заявок
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Application'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Создание новой заявки
+      tags:
+        - Заявки
+      description: Создает новую заявку с переданными данными и возвращает её ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+      responses:
+        '200':
+          description: ID новой заявки
+          content:
+            application/json:
+              schema:
+                type: integer
+        '400':
+          description: Неверные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Обновление заявки
+      tags:
+        - Заявки
+      description: Обновляет информацию о заявке по переданным данным
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+      responses:
+        '200':
+          description: Заявка обновлена
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Неверные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /api/applications/brigadir/{id_brigadir}:
+    get:
+      summary: Получение всех заявок
+      tags:
+        - Заявки
+      description: Возвращает список всех заявок у бригадира
+      parameters:
+        - in: path
+          name: id_brigadir
+          schema:
+            type: integer
+          required: true
+          description: ID бригадира
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Application'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /api/applications/{id}:
+    delete:
+      summary: Удаление заявки
+      tags:
+        - Заявки
+      description: Удаляет заявку по указанному ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID заявки
+      responses:
+        '200':
+          description: Заявка удалена
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Заявка не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      summary: Получение заявки по ID
+      tags:
+        - Заявки
+      description: Возвращает заявку с указанным ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID заявки
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '404':
+          description: Заявка не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/characters:
+    get:
+      summary: Получение всех характеров аварий
+      tags:
+        - Характеры аварий
+      description: Возвращает список всех характеров аварий
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccidentCharacter'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/characters/{id}:
+    get:
+      summary: Получение информации о характере аварии по ID
+      tags:
+        - Характеры аварий
+      description: Возвращает информацию о характере аварии с указанным ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID характера аварии
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccidentCharacter'
+        '404':
+          description: Характер аварии не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/damages:
+    get:
+      summary: Получение всех типов повреждений
+      tags:
+        - Повреждения
+      description: Возвращает список всех типов повреждений
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Damage'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/history/appeals:
+    get:
+      summary: Получение списка обращений старше 6 месяцев
+      tags:
+        - History
+      description: Получение списка всех обращений, которые были созданы более 6 месяцев назад.
+      responses:
+        '200':
+          description: Список обращений
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appeal'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/history/applications:
+    get:
+      summary: Получение списка завершенных заявок
+      tags:
+        - History
+      description: Получение списка заявок, где id_status = 3 (например, завершённые или обработанные заявки).
+      responses:
+        '200':
+          description: Список заявок
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Application'
+        '400':
+          description: Ошибка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/history/shutdowns:
+    get:
+      summary: Получение списка неактивных отключений
+      tags:
+        - History
+      description: Получение списка отключений с состоянием `is_active = false`.
+      responses:
+        '200':
+          description: Список отключений
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Shutdown'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/importance:
+    get:
+      summary: Получение списка всех важностей
+      tags:
+        - Importance
+      description: Получение списка всех важностей.
+      responses:
+        '200':
+          description: Список важностей
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Importance'
+        '400':
+          description: Ошибка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/importance/{id}:
+    get:
+      summary: Получение информации о важности по ID
+      tags:
+        - Importance
+      description: Получение информации о важности по заданному ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID важности
+      responses:
+        '200':
+          description: Информация о важности
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Importance'
+        '400':
+          description: Ошибка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/materials:
+    get:
+      summary: Получение списка всех типов материалов
+      tags:
+        - Material
+      description: Получение списка всех типов материалов.
+      responses:
+        '200':
+          description: Список типов материалов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Material'
+        '400':
+          description: Ошибка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/shutdowns:
+    get:
+      summary: Получение списка всех отключений
+      tags:
+        - Shutdown
+      description: Получение списка всех отключений
+      responses:
+        '200':
+          description: Список всех отключений
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Shutdown'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Создание нового отключения
+      tags:
+        - Shutdown
+      description: Создает новое отключение с указанными параметрами
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shutdown'
+      responses:
+        '201':
+          description: ID созданного отключения
+          content:
+            application/json:
+              schema:
+                type: integer
+        '400':
+          description: Ошибка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Обновление отключения
+      tags:
+        - Shutdown
+      description: Обновляет информацию об отключении по его ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shutdown'
+      responses:
+        '200':
+          description: Отключение обновлено
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Ошибка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Отключение не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/shutdowns/{id}:
+    get:
+      summary: Получение отключения по ID
+      tags:
+        - Shutdown
+      description: Получение информации о конкретном отключении по его ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID отключения
+      responses:
+        '200':
+          description: Информация о отключении
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shutdown'
+        '400':
+          description: Ошибка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Отключение не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/specializations:
+    get:
+      summary: Получение списка всех специализаций
+      tags:
+        - Specialization
+      description: Получение списка всех специализаций
+      responses:
+        '200':
+          description: Список всех специализаций
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Specialization'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/specializations/{id}:
+    get:
+      summary: Получение специализации по ID
+      tags:
+        - Specialization
+      description: Получение информации о специализации по ее ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID специализации
+      responses:
+        '200':
+          description: Информация о специализации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Specialization'
+        '400':
+          description: Ошибка запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Специализация не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/statistics:
+    get:
+      summary: Получение статистики за текущий месяц
+      tags:
+        - Statistic
+      description: Получение статистики по числу обращений, заявок и отключений за текущий месяц
+      responses:
+        '200':
+          description: Статистика за текущий месяц
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statistic'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/statuses:
+    get:
+      summary: Получение списка всех статусов
+      tags:
+        - Status
+      description: Получение списка всех статусов в системе
+      responses:
+        '200':
+          description: Список всех статусов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Status'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/statuses/{id}:
+    get:
+      summary: Получение информации о статусе по ID
+      tags:
+        - Status
+      description: Получение статуса по его ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer 
+          required: true
+          description: ID статуса
+      responses:
+        '200':
+          description: Информация о статусе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Неверный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Статус не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /auth/login:
+    post:
+      summary: Аутентификация пользователя
+      tags:
+        - User
+      description: Выполняет аутентификацию пользователя по логину и паролю, возвращает JWT токен.
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: JWT токен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '400':
+          description: Ошибка аутентификации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка создания токена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /auth/register:
+    post:
+      summary: Регистрация нового пользователя
+      tags:
+        - User
+      description: Регистрирует нового пользователя с указанными данными.
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: ID зарегистрированного пользователя
+          content:
+            application/json:
+              schema:
+                type: integer
+        '400':
+          description: Ошибка регистрации
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

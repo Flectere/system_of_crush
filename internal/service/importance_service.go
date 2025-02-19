@@ -15,11 +15,6 @@ func NewImportanceService(db *database.Database) *ImportanceService {
 	return &ImportanceService{db: db}
 }
 
-func (s *ImportanceService) GetImportanceById(id string) (models.Importance, error) {
-	// Выполнить запрос к БД и вернуть информацию об аварии
-	return models.Importance{}, nil
-}
-
 func (s *ImportanceService) GetAllImportances() ([]models.Importance, error) {
 	var importances []models.Importance
 

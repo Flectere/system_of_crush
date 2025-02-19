@@ -15,12 +15,6 @@ func NewSpecializationService(db *database.Database) *SpecializationService {
 	return &SpecializationService{db: db}
 }
 
-func (s *SpecializationService) GetSpecializationById(id string) (models.Specialization, error) {
-	var specialization models.Specialization
-
-	return specialization, nil
-}
-
 func (s *SpecializationService) GetAllSpecializations() ([]models.Specialization, error) {
 	var specializations []models.Specialization
 

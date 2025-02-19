@@ -1,19 +1,18 @@
 services:
   golang:
+    image: system_of_crush:latest
     build: ./
     ports: 
       - "8080:8080"
     depends_on:
       - postgres
 
-
   postgres:
     image: postgres:latest
-    restart: always
     environment:
       POSTGRES_DB: system_of_crush
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: postgres
       PGDATA: /var/lib/postgresql/data
     volumes:
       - ./data:/var/lib/postgresql/data
@@ -23,7 +22,6 @@ services:
 
   pgadmin4:
     image: elestio/pgadmin:latest
-    restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: email
       PGADMIN_DEFAULT_PASSWORD: password
@@ -32,3 +30,11 @@ services:
       - "8081:8080"
     volumes:
       - ./servers.json:/pgadmin4/servers.json
+  swagger:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8084:8080"
+    environment:
+      - SWAGGER_JSON=/api/openapi.yaml
+    volumes:
+      - ./docs:/api

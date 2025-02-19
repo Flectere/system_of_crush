@@ -1,15 +1,12 @@
 package transport
 
 import (
+	"net/http"
 	"time"
 
 	"github.com/Flectere/system_of_crush/internal/service"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-
-	_ "github.com/Flectere/system_of_crush/docs"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func NewRouter(service *service.Service) *gin.Engine {
@@ -24,8 +21,8 @@ func NewRouter(service *service.Service) *gin.Engine {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "Hello, world!"})
+	router.GET("/docs", func(c *gin.Context) {
+		c.Redirect(http.StatusFound, "http://localhost:8084")
 	})
 
 	userHandler := newUserHandler(service.UserService)
@@ -41,8 +38,6 @@ func NewRouter(service *service.Service) *gin.Engine {
 	materialHandler := newMaterialHandler(service.MaterialService)
 	statisticHandler := newStatisticHandler(service.StatisticService)
 	historyHandler := newHistoryHandler(service.HistoryService)
-
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	auth := router.Group("/auth")
 	{
@@ -65,6 +60,7 @@ func NewRouter(service *service.Service) *gin.Engine {
 		{
 			applications.POST("", applicationHandler.CreateApplicationHandler)
 			applications.GET("", applicationHandler.GetAllApplicationsHandler)
+			applications.GET("/brigadir/:id_brigadir", applicationHandler.GetAllBrigadirApplicationsHandler)
 			applications.GET("/:id", applicationHandler.GetApplicationHandler)
 			applications.PUT("", applicationHandler.UpdateApplicationHandler)
 			applications.DELETE("/:id", applicationHandler.DeleteApplicationHandler)
@@ -82,13 +78,11 @@ func NewRouter(service *service.Service) *gin.Engine {
 		accidents := api.Group("/accidents")
 		{
 			accidents.GET("", accidentHandler.GetAllAccidentsHandler)
-			accidents.GET("/:id", accidentHandler.GetAccidentHandler)
 		}
 
 		characters := api.Group("/characters")
 		{
 			characters.GET("", characterHandler.GetAllCharactersHandler)
-			characters.GET("/:id", characterHandler.GetCharacterHandler)
 		}
 
 		specializations := api.Group("/specializations")

@@ -15,11 +15,6 @@ func NewCharacterService(db *database.Database) *CharacterService {
 	return &CharacterService{db: db}
 }
 
-func (s *CharacterService) GetCharacterById(id string) (models.AccidentCharacter, error) {
-	// Выполнить запрос к БД и вернуть информацию об аварии
-	return models.AccidentCharacter{}, nil
-}
-
 func (s *CharacterService) GetAllCharacters() ([]models.AccidentCharacter, error) {
 	var characters []models.AccidentCharacter
 
