@@ -3,10 +3,13 @@ package config
 import (
 	"encoding/json"
 	"io"
+	"log"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
-var Config *config
+var Config = &config{}
 
 type DataBaseConfig struct {
 	Host     string `json:"host"`
@@ -30,6 +33,11 @@ type config struct {
 }
 
 func InitConfig(filepath string) error {
+	err := godotenv.Load()
+
+	if err != nil {
+		log.Fatalf("Файл .env не найден")
+	}
 
 	file, err := os.Open(filepath)
 	if err != nil {
@@ -42,10 +50,15 @@ func InitConfig(filepath string) error {
 		return err
 	}
 
-	err = json.Unmarshal(bytes, &Config)
+	err = json.Unmarshal(bytes, Config)
 	if err != nil {
 		return err
 	}
+
+	Config.DataBaseConfig.Username = os.Getenv("POSTGRES_USER")
+	Config.DataBaseConfig.Password = os.Getenv("POSTGRES_PASSWORD")
+	Config.ServerConfig.Salt = os.Getenv("SALT")
+	Config.ServerConfig.JWT = os.Getenv("JWT_KEY")
 
 	return nil
 }

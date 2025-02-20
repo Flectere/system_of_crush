@@ -1,7 +1,5 @@
 {
     "db_config": {
-        "username": "postgres",
-        "password": "password",
         "host": "postgres",
         "port": 5432,
         "dbname": "system_of_crush",
@@ -9,9 +7,6 @@
     },
     "server_config":{
         "host": "0.0.0.0",
-        "port": 8080,
-        "jwt_key": "secretKey",
-        "password_salt": "salt"
+        "port": 8080
     }
-    
 }
