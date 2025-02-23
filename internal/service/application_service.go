@@ -98,7 +98,9 @@ func (s *ApplicationService) GetAllBrigadirApplications(id string) ([]models.App
 				LEFT JOIN accident_content con ON ap.id_accident = con.id
 				JOIN accident_character char ON con.id_character = char.id
 				JOIN specialization spec ON char.id_specialization = spec.id
-				WHERE id_brigade = $1
+				JOIN brigade ON brigade.id = ap.id_brigade
+				JOIN "user" brigadir ON brigadir.id = brigade.id_brigadir
+				WHERE brigadir.id = 2
 				ORDER BY ap.id
 	`
 
