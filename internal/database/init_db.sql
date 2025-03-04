@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 17.2 (Debian 17.2-1.pgdg120+1)
+-- Dumped from database version 17.4 (Debian 17.4-1.pgdg120+2)
 -- Dumped by pg_dump version 17.2
 
--- Started on 2025-02-13 14:15:30 UTC
+-- Started on 2025-03-04 07:21:51 UTC
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -23,6 +23,7 @@ SET row_security = off;
 -- TOC entry 4 (class 2615 OID 2200)
 -- Name: public; Type: SCHEMA; Schema: -; Owner: pg_database_owner
 --
+
 
 ALTER SCHEMA public OWNER TO pg_database_owner;
 
@@ -180,7 +181,8 @@ CREATE TABLE public.application (
     damage_point text,
     id_material integer,
     id_damage integer,
-    id_brigade integer
+    id_brigade integer,
+    work_duration interval
 );
 
 
@@ -565,7 +567,7 @@ ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
 
 
 --
--- TOC entry 243 (class 1259 OID 16577)
+-- TOC entry 243 (class 1259 OID 16461)
 -- Name: user_id_seq1; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -580,7 +582,7 @@ ALTER TABLE public."user" ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 --
--- TOC entry 3271 (class 2604 OID 16461)
+-- TOC entry 3271 (class 2604 OID 16462)
 -- Name: accident_character id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -588,7 +590,7 @@ ALTER TABLE ONLY public.accident_character ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
--- TOC entry 3272 (class 2604 OID 16462)
+-- TOC entry 3272 (class 2604 OID 16463)
 -- Name: accident_content id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -596,7 +598,7 @@ ALTER TABLE ONLY public.accident_content ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 3273 (class 2604 OID 16463)
+-- TOC entry 3273 (class 2604 OID 16464)
 -- Name: appeal id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -604,7 +606,7 @@ ALTER TABLE ONLY public.appeal ALTER COLUMN id SET DEFAULT nextval('public.appea
 
 
 --
--- TOC entry 3274 (class 2604 OID 16464)
+-- TOC entry 3274 (class 2604 OID 16465)
 -- Name: application id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -612,7 +614,7 @@ ALTER TABLE ONLY public.application ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 3275 (class 2604 OID 16465)
+-- TOC entry 3275 (class 2604 OID 16466)
 -- Name: brigade id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -620,7 +622,7 @@ ALTER TABLE ONLY public.brigade ALTER COLUMN id SET DEFAULT nextval('public.brig
 
 
 --
--- TOC entry 3276 (class 2604 OID 16466)
+-- TOC entry 3276 (class 2604 OID 16467)
 -- Name: damage_type id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -628,7 +630,7 @@ ALTER TABLE ONLY public.damage_type ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
--- TOC entry 3277 (class 2604 OID 16467)
+-- TOC entry 3277 (class 2604 OID 16468)
 -- Name: importance id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -636,7 +638,7 @@ ALTER TABLE ONLY public.importance ALTER COLUMN id SET DEFAULT nextval('public.i
 
 
 --
--- TOC entry 3278 (class 2604 OID 16468)
+-- TOC entry 3278 (class 2604 OID 16469)
 -- Name: material_type id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -644,7 +646,7 @@ ALTER TABLE ONLY public.material_type ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 3279 (class 2604 OID 16469)
+-- TOC entry 3279 (class 2604 OID 16470)
 -- Name: role id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -652,7 +654,7 @@ ALTER TABLE ONLY public.role ALTER COLUMN id SET DEFAULT nextval('public.role_id
 
 
 --
--- TOC entry 3280 (class 2604 OID 16470)
+-- TOC entry 3280 (class 2604 OID 16471)
 -- Name: shutdown id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -660,7 +662,7 @@ ALTER TABLE ONLY public.shutdown ALTER COLUMN id SET DEFAULT nextval('public.shu
 
 
 --
--- TOC entry 3281 (class 2604 OID 16471)
+-- TOC entry 3281 (class 2604 OID 16472)
 -- Name: specialization id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -668,7 +670,7 @@ ALTER TABLE ONLY public.specialization ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 3282 (class 2604 OID 16472)
+-- TOC entry 3282 (class 2604 OID 16473)
 -- Name: status id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -730,26 +732,26 @@ INSERT INTO public.appeal (id, description, create_date, id_accident, applicant_
 -- Data for Name: application; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (22, 'В магазине Дом Обоев', '2024-11-23 06:42:56.544', 2, 2, 1, 'Казань,улица Химиков,13', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (23, 'Нет воды в 3 подъезде.', '2024-11-23 06:47:55.058', 2, 3, 1, 'Казань,Поперечно-Авангардная улица,5лит3', 'Прорыв трубы', 'Правый сектор', 1, 2, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (24, 'Утечка воды в магазине', '2024-11-23 07:32:21.669', 4, 3, 1, 'Казань,Беломорская улица,81', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (25, 'Вытекает во втором подъезде', '2024-11-23 07:34:22.728', 5, 1, 1, 'Казань,Авангардная улица,167А', 'Высокое давление', 'Правый сектор', 1, 2, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (26, 'пашок', '2024-11-23 09:05:27.194', 4, 1, 1, 'посёлок Кизнер,Кизнерская улица,82', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (6, 'В магазинах нет подачи воды', '2024-11-22 08:48:15.402', 1, 1, 1, 'Казань,улица Гладилова,32', 'Большое давление', 'Улица', 1, 1, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (7, '', '2024-11-22 09:22:23.062', 5, 1, 3, 'Казань,улица Баумана,1К2', '', '', 2, 2, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (5, '', '2024-11-22 08:44:54.169', 2, 2, 3, 'Казань,улица Коротченко,2', '', '', 1, 1, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (9, '', '2024-11-22 13:30:04.363', 6, 3, 1, 'Казань,проспект Ибрагимова,54', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (10, '', '2024-11-22 13:34:11.759', 1, 2, 1, 'Казань,Полевая улица,30', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (11, 'Насос не работает', '2024-11-22 13:35:39.056', 8, 1, 1, 'Казань,Октябрьская улица,5А', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (12, '', '2024-11-22 13:39:11.747', 1, 3, 1, 'Казань,Архангельская улица,9', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (13, '', '2024-11-22 13:40:34.766', 4, 2, 1, 'Казань,Ленская улица,10', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (14, 'Не работает система', '2024-11-22 13:41:34.405', 7, 3, 1, 'Казань,улица Богатырёва,5к2', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (16, '', '2024-11-22 18:43:31.837', 6, 3, 3, 'Казань,улица Батурина,5', '', '', NULL, NULL, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (18, 'Вода вытекает во дворе. Около песочницы', '2024-11-22 19:00:01.718', 4, 1, 1, 'Казань,Авангардная улица,167А', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (19, 'В школе не работает краны', '2024-11-22 19:15:57.129', 3, 1, 2, 'Казань,Дубравная улица,35А', 'Высокое давление в системе', 'Двор', 2, 2, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (20, 'Нет воды на улице', '2024-11-22 19:48:26.167', 7, 3, 1, 'Казань,улица Бари Галеева,3А', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (3, 'Насос не работает', '2024-10-15 17:10:30', 8, 2, 3, 'Казань,Авангардная улица,167', '', '', 3, 1, NULL);
-INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade) VALUES (21, 'Нет воды на улице', '2024-11-22 19:50:44.707', 7, 1, 3, 'Казань,улица Бари Галеева,3А', 'Не аккуратное испо', 'Правый изгиб', 2, 5, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (22, 'В магазине Дом Обоев', '2024-11-23 06:42:56.544', 2, 2, 1, 'Казань,улица Химиков,13', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (25, 'Вытекает во втором подъезде', '2024-11-23 07:34:22.728', 5, 1, 1, 'Казань,Авангардная улица,167А', 'Высокое давление', 'Правый сектор', 1, 2, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (26, 'пашок', '2024-11-23 09:05:27.194', 4, 1, 1, 'посёлок Кизнер,Кизнерская улица,82', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (6, 'В магазинах нет подачи воды', '2024-11-22 08:48:15.402', 1, 1, 1, 'Казань,улица Гладилова,32', 'Большое давление', 'Улица', 1, 1, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (7, '', '2024-11-22 09:22:23.062', 5, 1, 3, 'Казань,улица Баумана,1К2', '', '', 2, 2, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (5, '', '2024-11-22 08:44:54.169', 2, 2, 3, 'Казань,улица Коротченко,2', '', '', 1, 1, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (9, '', '2024-11-22 13:30:04.363', 6, 3, 1, 'Казань,проспект Ибрагимова,54', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (10, '', '2024-11-22 13:34:11.759', 1, 2, 1, 'Казань,Полевая улица,30', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (11, 'Насос не работает', '2024-11-22 13:35:39.056', 8, 1, 1, 'Казань,Октябрьская улица,5А', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (12, '', '2024-11-22 13:39:11.747', 1, 3, 1, 'Казань,Архангельская улица,9', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (13, '', '2024-11-22 13:40:34.766', 4, 2, 1, 'Казань,Ленская улица,10', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (14, 'Не работает система', '2024-11-22 13:41:34.405', 7, 3, 1, 'Казань,улица Богатырёва,5к2', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (16, '', '2024-11-22 18:43:31.837', 6, 3, 3, 'Казань,улица Батурина,5', '', '', NULL, NULL, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (18, 'Вода вытекает во дворе. Около песочницы', '2024-11-22 19:00:01.718', 4, 1, 1, 'Казань,Авангардная улица,167А', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (19, 'В школе не работает краны', '2024-11-22 19:15:57.129', 3, 1, 2, 'Казань,Дубравная улица,35А', 'Высокое давление в системе', 'Двор', 2, 2, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (3, 'Насос не работает', '2024-10-15 17:10:30', 8, 2, 3, 'Казань,Авангардная улица,167', '', '', 3, 1, NULL, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (23, 'Нет воды в 3 подъезде.', '2024-11-23 06:47:55.058', 2, 3, 1, 'Казань,Поперечно-Авангардная улица,5лит3', 'Прорыв трубы', 'Правый сектор', 1, 2, 2, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (24, 'Утечка воды в магазине', '2024-11-23 07:32:21.669', 4, 3, 1, 'Казань,Беломорская улица,81', NULL, NULL, NULL, NULL, 2, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (20, 'Нет воды на улице', '2024-11-22 19:48:26.167', 7, 3, 1, 'Казань,улица Бари Галеева,3А', NULL, NULL, NULL, NULL, 3, NULL);
+INSERT INTO public.application (id, description, create_date, id_accident, id_importance, id_status, address, accident_cause, damage_point, id_material, id_damage, id_brigade, work_duration) VALUES (21, 'Нет воды на улице', '2024-11-22 19:50:44.707', 7, 1, 3, 'Казань,улица Бари Галеева,3А', 'Не аккуратное испо', 'Правый изгиб', 2, 5, 3, NULL);
 
 
 --
@@ -758,6 +760,8 @@ INSERT INTO public.application (id, description, create_date, id_accident, id_im
 -- Data for Name: brigade; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public.brigade (id, id_brigadir, people_count) VALUES (2, 2, 10);
+INSERT INTO public.brigade (id, id_brigadir, people_count) VALUES (3, 2, 4);
 
 
 --
@@ -900,7 +904,7 @@ SELECT pg_catalog.setval('public.application_id_seq', 27, true);
 -- Name: brigade_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.brigade_id_seq', 1, false);
+SELECT pg_catalog.setval('public.brigade_id_seq', 3, true);
 
 
 --
@@ -1236,7 +1240,7 @@ ALTER TABLE ONLY public."user"
     ADD CONSTRAINT fk_user_role FOREIGN KEY (id_role) REFERENCES public.role(id);
 
 
--- Completed on 2025-02-13 14:15:30 UTC
+-- Completed on 2025-03-04 07:21:51 UTC
 
 --
 -- PostgreSQL database dump complete

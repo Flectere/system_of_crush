@@ -100,7 +100,7 @@ func (s *ApplicationService) GetAllBrigadirApplications(id string) ([]models.App
 				JOIN specialization spec ON char.id_specialization = spec.id
 				JOIN brigade ON brigade.id = ap.id_brigade
 				JOIN "user" brigadir ON brigadir.id = brigade.id_brigadir
-				WHERE brigadir.id = 2
+				WHERE brigadir.id = $1
 				ORDER BY ap.id
 	`
 
