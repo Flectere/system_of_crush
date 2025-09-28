@@ -11,7 +11,6 @@ import (
 )
 
 func Run(configPath string) {
-
 	err := config.InitConfig(configPath)
 	if err != nil {
 		log.Fatal("Ошибка при загрузке конфигурации: ", err)

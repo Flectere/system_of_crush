@@ -16,7 +16,7 @@ func newAppealHandler(appealService *service.AppealService) *appealHandler {
 
 // Обработчик для обработки запросов на создание нового обращения
 func (h *appealHandler) CreateAppealHandler(c *gin.Context) {
-	var appeal models.Appeal
+	var appeal models.AppealCreate
 
 	if err := c.ShouldBindJSON(&appeal); err != nil {
 		c.JSON(400, err.Error())
@@ -57,7 +57,7 @@ func (h *appealHandler) GetAppealHandler(c *gin.Context) {
 }
 
 func (h *appealHandler) UpdateAppealHandler(c *gin.Context) {
-	var appeal models.Appeal
+	var appeal models.AppealEdit
 
 	if err := c.ShouldBindJSON(&appeal); err != nil {
 		c.JSON(400, gin.H{"error": "Неверные данные"})

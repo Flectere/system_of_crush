@@ -9,6 +9,8 @@ type Shutdown struct {
 	Application Application `json:"application"`
 	Date        *time.Time  `json:"date"`
 	DayCount    *int        `json:"day_count"`
+	HoursCount  *int        `json:"hours_count"`
 	IsActive    *bool       `json:"is_active"`
 	Description *string     `json:"description"`
+	Type        *int        `json:"id_type"`
 }

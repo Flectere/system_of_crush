@@ -28,6 +28,7 @@ func NewRouter(service *service.Service) *gin.Engine {
 	userHandler := newUserHandler(service.UserService)
 	appealHandler := newAppealHandler(service.AppealService)
 	applicationHandler := newApplicationHandler(service.ApplicationService)
+	brigadeHandler := newBrigadeHandler(service.BrigadeService)
 	shutdownHandler := newShutdownHandler(service.ShutdownService)
 	accidentHandler := newAccidentHandler(service.AccidentService)
 	characterHandler := newCharacterHandler(service.CharacterService)
@@ -38,6 +39,7 @@ func NewRouter(service *service.Service) *gin.Engine {
 	materialHandler := newMaterialHandler(service.MaterialService)
 	statisticHandler := newStatisticHandler(service.StatisticService)
 	historyHandler := newHistoryHandler(service.HistoryService)
+	mobileHandler := newMobileHandler(service.ApplicationService)
 
 	auth := router.Group("/auth")
 	{
@@ -47,6 +49,19 @@ func NewRouter(service *service.Service) *gin.Engine {
 
 	api := router.Group("/api", AuthMiddleware())
 	{
+		mobile := api.Group("/mobile")
+		{
+			applications := mobile.Group("/applications")
+			{
+				applications.GET("", mobileHandler.GetFreeApplicationsHandler)
+				applications.GET("/:id", mobileHandler.GetApplicationHandler)
+				applications.GET("/brigadir/:id_brigadir", mobileHandler.GetAllBrigadirApplicationsHandler)
+				applications.PATCH("/:id/set-to-brigadir", mobileHandler.SetApplicationToBrigadir)
+				applications.PATCH("/:id/start-applications", mobileHandler.StartApplicationHandler)
+				applications.PATCH("/:id/finish-applications", mobileHandler.FinishApplicationHandler)
+			}
+		}
+
 		appeals := api.Group("/appeals")
 		{
 			appeals.POST("", appealHandler.CreateAppealHandler)
@@ -60,10 +75,20 @@ func NewRouter(service *service.Service) *gin.Engine {
 		{
 			applications.POST("", applicationHandler.CreateApplicationHandler)
 			applications.GET("", applicationHandler.GetAllApplicationsHandler)
-			applications.GET("/brigadir/:id_brigadir", applicationHandler.GetAllBrigadirApplicationsHandler)
+			applications.GET("/free", applicationHandler.GetFreeApplicationsHandler)
 			applications.GET("/:id", applicationHandler.GetApplicationHandler)
 			applications.PUT("", applicationHandler.UpdateApplicationHandler)
+			applications.PATCH("/:id/set-to-brigadir", applicationHandler.SetApplicationToBrigadirHandler)
 			applications.DELETE("/:id", applicationHandler.DeleteApplicationHandler)
+		}
+
+		brigades := api.Group("/brigades")
+		{
+			brigades.GET("", brigadeHandler.GetAllBrigadesHandler)
+			brigades.GET("/:id", brigadeHandler.GetBrigadeByIDHandler)
+			brigades.POST("", brigadeHandler.CreateBrigadeHandler)
+			brigades.PUT("/:id", brigadeHandler.EditBrigadeHandler)
+			brigades.GET("/free-brigadirs", brigadeHandler.GetFreeBrigadirsHandler)
 		}
 
 		shutdowns := api.Group("/shutdowns")
@@ -113,6 +138,7 @@ func NewRouter(service *service.Service) *gin.Engine {
 		statistics := api.Group("/statistics")
 		{
 			statistics.GET("", statisticHandler.GetStatisticHandler)
+			statistics.GET("brigades", statisticHandler.GetBrigadirStatisticHandler)
 		}
 
 		history := api.Group("/history")

@@ -16,7 +16,7 @@ func newShutdownHandler(shutdownService *service.ShutdownService) *shutdownHandl
 
 // Обработчик для обработки запросов на создание отключения
 func (h *shutdownHandler) CreateShutdownHandler(c *gin.Context) {
-	var Shutdown models.Shutdown
+	var Shutdown models.ShutdownCreate
 
 	if err := c.ShouldBindJSON(&Shutdown); err != nil {
 		c.JSON(400, err.Error())
@@ -34,15 +34,16 @@ func (h *shutdownHandler) CreateShutdownHandler(c *gin.Context) {
 
 // Обработчик для обработки запросов на получение всех отключений
 func (h *shutdownHandler) GetAllShutdownsHandler(c *gin.Context) {
-	Shutdowns, err := h.shutdownService.GetAllShutdowns()
+	shutdowns, err := h.shutdownService.GetAllShutdowns()
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(200, Shutdowns)
+	c.JSON(200, shutdowns)
 }
 
+// TODO подумать над атомарными данными
 // Обработчик для обработки запросов получения конкретного отключения
 func (h *shutdownHandler) GetShutdownHandler(c *gin.Context) {
 	id := c.Param("id")
@@ -56,6 +57,7 @@ func (h *shutdownHandler) GetShutdownHandler(c *gin.Context) {
 	c.JSON(200, Shutdown)
 }
 
+// TODO подумать про атомарность
 func (h *shutdownHandler) UpdateShutdownHandler(c *gin.Context) {
 	var Shutdown models.Shutdown
 

@@ -8,6 +8,7 @@ type Service struct {
 	UserService           *UserService
 	AppealService         *AppealService
 	ApplicationService    *ApplicationService
+	BrigadeService        *BrigadeService
 	ShutdownService       *ShutdownService
 	SpecializationService *SpecializationService
 	ImportanceService     *ImportanceService
@@ -25,6 +26,7 @@ func NewService(db *database.Database) *Service {
 		UserService:           NewUserService(db),
 		AppealService:         NewAppealService(db),
 		ApplicationService:    NewApplicationService(db),
+		BrigadeService:        NewBrigadeService(db),
 		ShutdownService:       NewShutdownService(db),
 		AccidentService:       NewAccidentService(db),
 		CharacterService:      NewCharacterService(db),

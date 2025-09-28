@@ -19,4 +19,5 @@ type Application struct {
 	Brigade       Brigade        `json:"brigade,omitempty"`
 	Duration      *time.Duration `json:"duration,omitempty"`
 	Image         []byte         `json:"image,omitempty"`
+	Operator      User           `json:"operator,omitempty"`
 }

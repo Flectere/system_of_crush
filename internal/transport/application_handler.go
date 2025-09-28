@@ -1,6 +1,8 @@
 package transport
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/Flectere/system_of_crush/internal/models"
@@ -17,10 +19,10 @@ func newApplicationHandler(applicationService *service.ApplicationService) *appl
 
 // Обработчик для обработки запросов на создание новой заявки
 func (h *applicationHandler) CreateApplicationHandler(c *gin.Context) {
-	var application models.Application
+	var application models.ApplicationCreate
 
 	if err := c.ShouldBindJSON(&application); err != nil {
-		c.JSON(400, gin.H{"error": "Неверные данные"})
+		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -35,7 +37,6 @@ func (h *applicationHandler) CreateApplicationHandler(c *gin.Context) {
 
 // Обработчик для обработки запросов на получение всех заявок
 func (h *applicationHandler) GetAllApplicationsHandler(c *gin.Context) {
-
 	applications, err := h.applicationService.GetAllApplications()
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
@@ -45,12 +46,23 @@ func (h *applicationHandler) GetAllApplicationsHandler(c *gin.Context) {
 	c.JSON(200, applications)
 }
 
-// Обработчик для обработки запросов на получение заявок у бригадира
+// Обработчик для обработки запросов на получение всех заявок у бригадира
 func (h *applicationHandler) GetAllBrigadirApplicationsHandler(c *gin.Context) {
 	brigadirID := c.Param("id_brigadir")
 	applications, err := h.applicationService.GetAllBrigadirApplications(brigadirID)
 	if err != nil {
 		c.JSON(404, gin.H{"error": err.Error()})
+	}
+
+	c.JSON(200, applications)
+}
+
+// Обработчик для получения всех свободных заявок
+func (h *applicationHandler) GetFreeApplicationsHandler(c *gin.Context) {
+	applications, err := h.applicationService.GetAllFreeApplications()
+	if err != nil {
+		c.JSON(404, gin.H{"error": err.Error()})
+		return
 	}
 
 	c.JSON(200, applications)
@@ -72,7 +84,7 @@ func (h *applicationHandler) GetApplicationHandler(c *gin.Context) {
 }
 
 func (h *applicationHandler) UpdateApplicationHandler(c *gin.Context) {
-	var application models.Application
+	var application models.ApplicationEdit
 
 	if err := c.ShouldBindJSON(&application); err != nil {
 		c.JSON(400, gin.H{"error": "Неверные данные"})
@@ -98,4 +110,21 @@ func (h *applicationHandler) DeleteApplicationHandler(c *gin.Context) {
 	}
 
 	c.Status(204)
+}
+
+func (h *applicationHandler) SetApplicationToBrigadirHandler(c *gin.Context) {
+	applicationID := c.Param("id")
+
+	type requestBody struct {
+		BrigadirID string `json:"id_brigadir"`
+	}
+	var body requestBody
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	err := h.applicationService.SetApplicationToBrigadir(body.BrigadirID, applicationID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
 }

@@ -19,6 +19,7 @@ services:
       - ./internal/database/init_db.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 5433:5432
+    attach: false
 
   pgadmin4:
     image: elestio/pgadmin:latest
@@ -30,6 +31,8 @@ services:
       - "8081:8080"
     volumes:
       - ./servers.json:/pgadmin4/servers.json
+    attach: false
+
   swagger:
     image: swaggerapi/swagger-ui
     ports:
@@ -38,3 +41,4 @@ services:
       - SWAGGER_JSON=/api/openapi.yaml
     volumes:
       - ./docs:/api
+    attach: false

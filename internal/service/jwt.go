@@ -14,7 +14,7 @@ import (
 func generateJWT(user models.User) (string, error) {
 	secretKey := config.Config.ServerConfig.JWT
 	claims := jwt.MapClaims{
-		"ID":         user.ID,
+		"id":         user.ID,
 		"first_name": user.FirstName,
 		"last_name":  user.LastName,
 		"patronymic": user.Patronymic,
@@ -53,7 +53,7 @@ func ValidateJWT(tokenString string) (int, error) {
 		return 0, fmt.Errorf("invalid token")
 	}
 
-	id, ok := claims["ID"].(float64)
+	id, ok := claims["id"].(float64)
 	if !ok {
 		return 0, fmt.Errorf("invalid ID in claims")
 	}
